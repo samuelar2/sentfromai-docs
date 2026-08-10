@@ -1,9 +1,9 @@
 ---
 title: 'DNS: Cloudflare'
-description: 'Publish your SentVia DNS records in Cloudflare.'
+description: 'Publish your SentFromAI DNS records in Cloudflare.'
 ---
 
-After adding a [custom domain](/guides/custom-domains), SentVia gives you a set of DKIM, SPF,
+After adding a [custom domain](/guides/custom-domains), SentFromAI gives you a set of DKIM, SPF,
 DMARC, and MX records. Here's how to add them in Cloudflare.
 
 <Steps>
@@ -30,6 +30,6 @@ DMARC, and MX records. Here's how to add them in Cloudflare.
   and routing.
 </Warning>
 
-SentVia verifies automatically once the records resolve — usually within minutes. Track status on
-the **Domains** page in the [dashboard](https://console.sentvia.ai), or call
+SentFromAI verifies automatically once the records resolve — usually within minutes. Track status on
+the **Domains** page in the [dashboard](https://console.sentfrom.ai), or call
 `POST /domains/{id}/verify` to re-check now.

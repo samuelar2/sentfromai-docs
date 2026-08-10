@@ -9,8 +9,8 @@ domains, on top of the automatic suppression of bounces and complaints.
 ## Add a rule
 
 ```bash
-curl -X POST https://api.sentvia.ai/v1/lists \
-  -H "Authorization: Bearer sv_live_…" -H "Content-Type: application/json" \
+curl -X POST https://api.sentfrom.ai/v1/lists \
+  -H "Authorization: Bearer sf_live_…" -H "Content-Type: application/json" \
   -d '{ "kind": "block", "direction": "outbound", "pattern": "competitor.com" }'
 ```
 
@@ -30,7 +30,7 @@ List and remove with `GET /lists` and `DELETE /lists/{id}`.
 
 ## Automatic suppression
 
-Separately from your rules, SentVia maintains an automatic **suppression list**: any
+Separately from your rules, SentFromAI maintains an automatic **suppression list**: any
 address that hard-bounces or files a spam complaint is suppressed so you never send
 to it again. This is managed for you — it protects your sending reputation without
 any configuration.

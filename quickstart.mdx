@@ -5,68 +5,68 @@ description: 'Create an inbox and send your first email in five minutes.'
 
 ## 1. Get an API key
 
-Create a key from the [dashboard](https://console.sentvia.ai) under **API keys**.
-Keys look like `sv_live_…` and carry the permissions of your workspace. Keep them
+Create a key from the [dashboard](https://console.sentfrom.ai) under **API keys**.
+Keys look like `sf_live_…` and carry the permissions of your workspace. Keep them
 secret — treat a key like a password.
 
-<Note>Every request is authenticated with `Authorization: Bearer sv_live_…`. See [Authentication](/authentication).</Note>
+<Note>Every request is authenticated with `Authorization: Bearer sf_live_…`. See [Authentication](/authentication).</Note>
 
 ## 2. Create an inbox
 
 <CodeGroup>
 ```bash cURL
-curl -X POST https://api.sentvia.ai/v1/inboxes \
-  -H "Authorization: Bearer sv_live_…" \
+curl -X POST https://api.sentfrom.ai/v1/inboxes \
+  -H "Authorization: Bearer sf_live_…" \
   -H "Content-Type: application/json" \
   -d '{ "local_part": "support-bot", "display_name": "Support" }'
 ```
 
 ```ts TypeScript
-const res = await fetch("https://api.sentvia.ai/v1/inboxes", {
+const res = await fetch("https://api.sentfrom.ai/v1/inboxes", {
   method: "POST",
-  headers: { Authorization: `Bearer ${process.env.SENTVIA_KEY}`, "Content-Type": "application/json" },
+  headers: { Authorization: `Bearer ${process.env.SENTFROMAI_API_KEY}`, "Content-Type": "application/json" },
   body: JSON.stringify({ local_part: "support-bot", display_name: "Support" }),
 });
-const inbox = await res.json(); // { id, address: "support-bot@mail.sentvia.ai" }
+const inbox = await res.json(); // { id, address: "support-bot@mail.sentfrom.ai" }
 ```
 
 ```python Python
 import requests
 inbox = requests.post(
-    "https://api.sentvia.ai/v1/inboxes",
+    "https://api.sentfrom.ai/v1/inboxes",
     headers={"Authorization": f"Bearer {KEY}"},
     json={"local_part": "support-bot", "display_name": "Support"},
-).json()  # { "id": "...", "address": "support-bot@mail.sentvia.ai" }
+).json()  # { "id": "...", "address": "support-bot@mail.sentfrom.ai" }
 ```
 </CodeGroup>
 
-The inbox is live immediately on the shared `mail.sentvia.ai` domain — no DNS
+The inbox is live immediately on the shared `mail.sentfrom.ai` domain — no DNS
 setup required. (Want your own brand? See [Custom domains](/guides/custom-domains).)
 
 ## 3. Send an email
 
 <CodeGroup>
 ```bash cURL
-curl -X POST https://api.sentvia.ai/v1/messages \
-  -H "Authorization: Bearer sv_live_…" \
+curl -X POST https://api.sentfrom.ai/v1/messages \
+  -H "Authorization: Bearer sf_live_…" \
   -H "Content-Type: application/json" \
   -d '{
     "inbox_id": "INBOX_ID",
     "to": ["customer@example.com"],
     "subject": "Hello from your agent",
-    "text": "This email was sent by an AI agent via SentVia."
+    "text": "Sent from AI — this email was written and sent by an agent."
   }'
 ```
 
 ```ts TypeScript
-await fetch("https://api.sentvia.ai/v1/messages", {
+await fetch("https://api.sentfrom.ai/v1/messages", {
   method: "POST",
-  headers: { Authorization: `Bearer ${process.env.SENTVIA_KEY}`, "Content-Type": "application/json" },
+  headers: { Authorization: `Bearer ${process.env.SENTFROMAI_API_KEY}`, "Content-Type": "application/json" },
   body: JSON.stringify({
     inbox_id: inbox.id,
     to: ["customer@example.com"],
     subject: "Hello from your agent",
-    text: "This email was sent by an AI agent via SentVia.",
+    text: "Sent from AI — this email was written and sent by an agent.",
   }),
 });
 ```
@@ -77,13 +77,13 @@ the `thread_id` to follow the conversation.
 
 ## 4. Receive the reply
 
-When the customer replies, SentVia threads it and POSTs a `message.received`
+When the customer replies, SentFromAI threads it and POSTs a `message.received`
 event to your webhook. Register one in two lines:
 
 ```bash
-curl -X POST https://api.sentvia.ai/v1/webhooks \
-  -H "Authorization: Bearer sv_live_…" -H "Content-Type: application/json" \
-  -d '{ "url": "https://your-app.com/sentvia", "events": ["message.received"] }'
+curl -X POST https://api.sentfrom.ai/v1/webhooks \
+  -H "Authorization: Bearer sf_live_…" -H "Content-Type: application/json" \
+  -d '{ "url": "https://your-app.com/sentfromai", "events": ["message.received"] }'
 ```
 
 The response returns a signing `secret` (once) — use it to verify deliveries. Full

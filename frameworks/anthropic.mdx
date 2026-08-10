@@ -16,8 +16,8 @@ pip install anthropic requests
 ```python
 import os, requests, anthropic
 
-API = "https://api.sentvia.ai/v1"
-H = {"Authorization": f"Bearer {os.environ['SENTVIA_KEY']}"}
+API = "https://api.sentfrom.ai/v1"
+H = {"Authorization": f"Bearer {os.environ['SENTFROMAI_API_KEY']}"}
 client = anthropic.Anthropic()
 
 TOOLS = [
@@ -58,6 +58,6 @@ while True:
 ```
 
 <Tip>
-  Claude Desktop and other MCP hosts can use the [SentVia MCP server](/guides/mcp) directly — no tool
+  Claude Desktop and other MCP hosts can use the [SentFromAI MCP server](/guides/mcp) directly — no tool
   schemas to maintain.
 </Tip>

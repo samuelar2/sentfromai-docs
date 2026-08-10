@@ -1,11 +1,11 @@
 ---
 title: 'OpenClaw'
-description: 'Give your OpenClaw agent its own email address with the SentVia MCP server.'
+description: 'Give your OpenClaw agent its own email address with the SentFromAI MCP server.'
 ---
 
 [OpenClaw](https://openclaw.ai) is an open-source personal AI agent that runs
 continuously on your own machine. It speaks MCP natively, so connecting the
-[SentVia MCP server](/guides/mcp) gives it a real, dedicated email identity: an
+[SentFromAI MCP server](/guides/mcp) gives it a real, dedicated email identity: an
 address it owns, sends from, and watches — separate from your personal inbox.
 
 Things an OpenClaw agent does with its own address:
@@ -23,18 +23,18 @@ Things an OpenClaw agent does with its own address:
   **Zero-setup path**: paste this into OpenClaw and it installs everything itself —
 
   ```text
-  Set up SentVia email for yourself: fetch https://docs.sentvia.ai/agent-install.md
+  Set up SentFromAI email for yourself: fetch https://docs.sentfrom.ai/agent-install.md
   and follow it. Ask me for the API key when you need it.
   ```
 </Tip>
 
-Or set it up manually. You need a SentVia API key (`sv_live_…`) from the
-[dashboard](https://console.sentvia.ai).
+Or set it up manually. You need a SentFromAI API key (`sf_live_…`) from the
+[dashboard](https://console.sentfrom.ai).
 
 Register the server with the OpenClaw CLI:
 
 ```bash
-openclaw mcp add sentvia --command npx --arg -y --arg sentvia-mcp
+openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp
 ```
 
 then add your API key to the server's `env`. OpenClaw stores MCP servers in
@@ -44,10 +44,10 @@ then add your API key to the server's `env`. OpenClaw stores MCP servers in
 {
   "mcp": {
     "servers": {
-      "sentvia": {
+      "sentfromai": {
         "command": "npx",
-        "args": ["-y", "sentvia-mcp"],
-        "env": { "SENTVIA_API_KEY": "sv_live_…" }
+        "args": ["-y", "sentfromai-mcp"],
+        "env": { "SENTFROMAI_API_KEY": "sf_live_…" }
       }
     }
   }
@@ -60,7 +60,7 @@ Verify the connection and tool list:
 openclaw mcp doctor --probe
 ```
 
-You should see the `sentvia` server with 21 tools — inboxes, messages, threads,
+You should see the `sentfromai` server with 21 tools — inboxes, messages, threads,
 drafts, domains, webhooks, and allow/block rules
 (full list in the [MCP guide](/guides/mcp)).
 
@@ -68,7 +68,7 @@ Prefer a skill? The same integration ships as an OpenClaw skill (email conduct
 rules + curl fallbacks included):
 
 ```bash
-openclaw skills install git:samuelar2/sentvia-mcp
+openclaw skills install git:samuelar2/sentfromai-mcp
 ```
 
 ## Give the agent its address
@@ -80,7 +80,7 @@ Create yourself an inbox called "claw" and introduce yourself
 to me by email at sam@example.com.
 ```
 
-OpenClaw calls `create_inbox` (→ `claw@mail.sentvia.ai`, live immediately), then
+OpenClaw calls `create_inbox` (→ `claw@mail.sentfrom.ai`, live immediately), then
 `send_message`. From there `search_messages`, `list_threads`, and
 `reply_to_message` cover the daily loop.
 

@@ -1,11 +1,11 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "SentVia",
+  "name": "SentFromAI",
   "colors": {
-    "primary": "#4f46e5",
-    "light": "#6366f1",
-    "dark": "#4338ca"
+    "primary": "#0D9488",
+    "light": "#2DD4BF",
+    "dark": "#0F766E"
   },
   "favicon": "/favicon.png",
   "navigation": {
@@ -178,12 +178,12 @@
       "anchors": [
         {
           "anchor": "Dashboard",
-          "href": "https://console.sentvia.ai",
+          "href": "https://console.sentfrom.ai",
           "icon": "gauge"
         },
         {
           "anchor": "Website",
-          "href": "https://sentvia.ai",
+          "href": "https://sentfrom.ai",
           "icon": "globe"
         }
       ]
@@ -194,24 +194,24 @@
     "dark": "/logo/dark.png"
   },
   "api": {
-    "openapi": "https://api.sentvia.ai/openapi.json"
+    "openapi": "https://api.sentfrom.ai/openapi.json"
   },
   "navbar": {
     "links": [
       {
         "label": "Support",
-        "href": "mailto:support@sentvia.ai"
+        "href": "mailto:support@sentfrom.ai"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Open dashboard",
-      "href": "https://console.sentvia.ai"
+      "href": "https://console.sentfrom.ai"
     }
   },
   "footer": {
     "socials": {
-      "website": "https://sentvia.ai"
+      "website": "https://sentfrom.ai"
     }
   }
 }

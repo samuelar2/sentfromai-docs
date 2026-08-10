@@ -17,8 +17,8 @@ pip install openai-agents requests
 import os, requests
 from agents import Agent, Runner, function_tool
 
-API = "https://api.sentvia.ai/v1"
-H = {"Authorization": f"Bearer {os.environ['SENTVIA_KEY']}"}
+API = "https://api.sentfrom.ai/v1"
+H = {"Authorization": f"Bearer {os.environ['SENTFROMAI_API_KEY']}"}
 
 @function_tool
 def send_email(inbox_id: str, to: str, subject: str, body: str) -> dict:
@@ -49,4 +49,4 @@ print(result.final_output)
 
 The runner loops tool calls automatically until the agent is done.
 
-<Tip>If your runtime speaks MCP, the [SentVia MCP server](/guides/mcp) exposes these same operations with no wrapper code.</Tip>
+<Tip>If your runtime speaks MCP, the [SentFromAI MCP server](/guides/mcp) exposes these same operations with no wrapper code.</Tip>

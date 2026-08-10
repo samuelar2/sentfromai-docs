@@ -1,27 +1,27 @@
 ---
 title: 'Agent self-install'
-description: 'Instructions an AI agent can follow to set up SentVia email for itself — paste one line into your agent and it does the rest.'
+description: 'Instructions an AI agent can follow to set up SentFromAI email for itself — paste one line into your agent and it does the rest.'
 ---
 
 <Note>
   **Humans:** paste this into your agent (OpenClaw, Claude Code, or any
-  MCP-capable agent) and it will set SentVia up for itself:
+  MCP-capable agent) and it will set SentFromAI up for itself:
 
   ```text
-  Set up SentVia email for yourself: fetch https://docs.sentvia.ai/agent-install.md
+  Set up SentFromAI email for yourself: fetch https://docs.sentfrom.ai/agent-install.md
   and follow it. Ask me for the API key when you need it.
   ```
 
   The rest of this page is written for the agent.
 </Note>
 
-You are an AI agent setting up SentVia, which gives you a real email address you
+You are an AI agent setting up SentFromAI, which gives you a real email address you
 can send from, receive to, and search. Follow these steps in order.
 
 ## Step 1 — Get an API key from your operator
 
-Ask your operator (the human you work for) for a SentVia API key. It looks like
-`sv_live_…` and comes from [console.sentvia.ai](https://console.sentvia.ai) →
+Ask your operator (the human you work for) for a SentFromAI API key. It looks like
+`sf_live_…` and comes from [console.sentfrom.ai](https://console.sentfrom.ai) →
 **API keys** (free plan: 5 inboxes, 5,000 emails/month — no card needed).
 
 Never guess, reuse, or fabricate a key. If your operator doesn't have one, give
@@ -32,19 +32,19 @@ them that link and wait.
 **If you are OpenClaw** (or can run the `openclaw` CLI):
 
 ```bash
-openclaw mcp add sentvia --command npx --arg -y --arg sentvia-mcp --env SENTVIA_API_KEY=<the key>
-openclaw skills install git:samuelar2/sentvia-mcp
+openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp --env SENTFROMAI_API_KEY=<the key>
+openclaw skills install git:samuelar2/sentfromai-mcp
 ```
 
 The first command gives you the email tools over MCP; the second installs the
-`sentvia` skill (usage guidance + curl fallbacks). If your operator prefers the
+`sentfromai` skill (usage guidance + curl fallbacks). If your operator prefers the
 key outside the config file, set an environment-backed value instead of the
 literal key.
 
 **If you are Claude Code:**
 
 ```bash
-claude mcp add sentvia --env SENTVIA_API_KEY=<the key> -- npx -y sentvia-mcp
+claude mcp add sentfromai --env SENTFROMAI_API_KEY=<the key> -- npx -y sentfromai-mcp
 ```
 
 **If you are another MCP-capable agent**, add this to your MCP servers config:
@@ -52,23 +52,23 @@ claude mcp add sentvia --env SENTVIA_API_KEY=<the key> -- npx -y sentvia-mcp
 ```json
 {
   "mcpServers": {
-    "sentvia": {
+    "sentfromai": {
       "command": "npx",
-      "args": ["-y", "sentvia-mcp"],
-      "env": { "SENTVIA_API_KEY": "<the key>" }
+      "args": ["-y", "sentfromai-mcp"],
+      "env": { "SENTFROMAI_API_KEY": "<the key>" }
     }
   }
 }
 ```
 
 **If you cannot run MCP servers at all**, skip installation — you can do
-everything over REST: base URL `https://api.sentvia.ai/v1`, header
+everything over REST: base URL `https://api.sentfrom.ai/v1`, header
 `Authorization: Bearer <the key>`. Recipes: [for-agents](/for-agents).
 
 ## Step 3 — Verify
 
-- OpenClaw: run `openclaw mcp doctor --probe` — expect `sentvia: ok`.
-- Any MCP host: confirm 21 `sentvia` tools appear (e.g. `create_inbox`,
+- OpenClaw: run `openclaw mcp doctor --probe` — expect `sentfromai: ok`.
+- Any MCP host: confirm 21 `sentfromai` tools appear (e.g. `create_inbox`,
   `send_message`, `search_messages`).
 - Then call `list_inboxes`. An empty list is fine — it proves auth works. An
   auth error means the key is wrong: re-ask your operator; do not retry blindly.
@@ -77,7 +77,7 @@ everything over REST: base URL `https://api.sentvia.ai/v1`, header
 
 If `list_inboxes` is empty, call `create_inbox` with a short `local_part` your
 operator approves (e.g. their project name). The returned address
-(`…@mail.sentvia.ai`) is live immediately. Confirm to your operator:
+(`…@mail.sentfrom.ai`) is live immediately. Confirm to your operator:
 address, and that send/receive/search all work (optionally send them a short
 introduction email — ask before sending).
 

@@ -1,13 +1,13 @@
 ---
 title: 'Agent frameworks'
-description: 'Drop SentVia into OpenClaw, LangChain, CrewAI, the OpenAI Agents SDK, the Vercel AI SDK, and more.'
+description: 'Drop SentFromAI into OpenClaw, LangChain, CrewAI, the OpenAI Agents SDK, the Vercel AI SDK, and more.'
 ---
 
-SentVia is just a REST API, so it plugs into any agent framework. There are two paths:
+SentFromAI is just a REST API, so it plugs into any agent framework. There are two paths:
 
 <CardGroup cols={2}>
   <Card title="MCP (zero glue)" icon="plug" href="/guides/mcp">
-    Connect the [SentVia MCP server](/guides/mcp) and email becomes native tools — no per-framework
+    Connect the [SentFromAI MCP server](/guides/mcp) and email becomes native tools — no per-framework
     wiring. Best if your runtime speaks MCP.
   </Card>
   <Card title="Native tools" icon="wrench" href="/frameworks/langchain">
@@ -27,7 +27,7 @@ Whatever the framework, you're exposing a handful of operations to the model. Th
 | `check_inbox(inbox_id)` | `GET /messages?inbox_id=…` |
 | `reply(message_id, body)` | `POST /messages/{id}/reply` |
 
-Each call is a Bearer-authenticated request to `https://api.sentvia.ai/v1` ([auth](/authentication)).
+Each call is a Bearer-authenticated request to `https://api.sentfrom.ai/v1` ([auth](/authentication)).
 
 ## Recipes
 

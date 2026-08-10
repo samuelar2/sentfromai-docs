@@ -3,7 +3,7 @@ title: Introduction
 description: "Email infrastructure for AI agents — inboxes, sending, receiving, threading, and webhooks in one API."
 ---
 
-SentVia gives your AI agents a real email address. Create inboxes on demand, send
+SentFromAI gives your AI agents a real email address. Create inboxes on demand, send
 and receive mail, follow conversations as threads, and react to incoming email in
 real time over webhooks — all from one clean API (or natively as agent tools over
 [MCP](/guides/mcp)).
@@ -22,7 +22,7 @@ real time over webhooks — all from one clean API (or natively as agent tools o
     Every endpoint, request, and response.
   </Card>
   <Card title="MCP server" icon="plug" href="/guides/mcp">
-    `npx -y sentvia-mcp` — email as 21 native tools in any MCP-capable agent.
+    `npx -y sentfromai-mcp` — email as 21 native tools in any MCP-capable agent.
   </Card>
   <Card title="Agent frameworks" icon="robot" href="/frameworks/overview">
     Recipes for OpenClaw, LangChain, CrewAI, Vercel AI SDK, and more.
@@ -40,7 +40,7 @@ real time over webhooks — all from one clean API (or natively as agent tools o
 
 <Steps>
   <Step title="Create an inbox">
-    `POST /inboxes` returns an address like `support-bot@mail.sentvia.ai` — ready
+    `POST /inboxes` returns an address like `support-bot@mail.sentfrom.ai` — ready
     to send and receive immediately on the shared domain.
   </Step>
   <Step title="Send & receive">
@@ -55,11 +55,11 @@ real time over webhooks — all from one clean API (or natively as agent tools o
 
 ## Deliverability, handled
 
-Every SentVia domain ships with **SPF, DKIM, and DMARC** configured, automatic
+Every SentFromAI domain ships with **SPF, DKIM, and DMARC** configured, automatic
 **bounce/complaint suppression**, and reputation isolation on higher plans. You
 focus on the agent; we keep the mail landing in the inbox.
 
 <Note>
-  Base URL: `https://api.sentvia.ai/v1`. All requests use a
+  Base URL: `https://api.sentfrom.ai/v1`. All requests use a
   Bearer API key — see [Authentication](/authentication).
 </Note>

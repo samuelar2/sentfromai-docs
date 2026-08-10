@@ -3,18 +3,18 @@ title: 'Custom domains'
 description: 'Send from your own brand with full SPF, DKIM, and DMARC.'
 ---
 
-Every workspace can send on the shared `mail.sentvia.ai` domain out of the box. To
+Every workspace can send on the shared `mail.sentfrom.ai` domain out of the box. To
 send from your own brand — `agent@mail.yourcompany.com` — add a custom domain
 (available on **Pro and up**).
 
 <Steps>
   <Step title="Add the domain">
-    In the [dashboard](https://console.sentvia.ai) → **Domains** → add
-    `mail.yourcompany.com`. SentVia returns the DNS records to publish.
+    In the [dashboard](https://console.sentfrom.ai) → **Domains** → add
+    `mail.yourcompany.com`. SentFromAI returns the DNS records to publish.
   </Step>
   <Step title="Publish DNS records">
     Add the returned **DKIM**, **SPF/MAIL FROM**, and **DMARC** records at your DNS
-    provider. SentVia verifies them automatically — no need to poll.
+    provider. SentFromAI verifies them automatically — no need to poll.
   </Step>
   <Step title="Send from it">
     Once verified, create inboxes on the domain by passing its `domain_id` to
@@ -35,5 +35,5 @@ strict, spoofing-proof posture.
 
 <Note>
   Adding a custom domain on the Free plan returns `402 custom_domains_require_paid_plan`.
-  Upgrade from the [Billing](https://console.sentvia.ai) page.
+  Upgrade from the [Billing](https://console.sentfrom.ai) page.
 </Note>

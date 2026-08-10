@@ -10,8 +10,8 @@ agent assigns the matching [label](/api-reference/labels/post). The pattern is
 ## 1. Create your labels once
 
 ```bash
-curl -X POST https://api.sentvia.ai/v1/labels \
-  -H "Authorization: Bearer sv_live_…" -H "Content-Type: application/json" \
+curl -X POST https://api.sentfrom.ai/v1/labels \
+  -H "Authorization: Bearer sf_live_…" -H "Content-Type: application/json" \
   -d '{ "name": "Sales", "color": "#10b981" }'
 # repeat for Support, Billing, Spam … keep the returned ids
 ```
@@ -20,8 +20,8 @@ curl -X POST https://api.sentvia.ai/v1/labels \
 
 <CodeGroup>
 ```ts TypeScript
-const KEY = process.env.SENTVIA_KEY!;
-const API = "https://api.sentvia.ai/v1";
+const KEY = process.env.SENTFROMAI_API_KEY!;
+const API = "https://api.sentfrom.ai/v1";
 const LABELS = { Sales: "lbl_…", Support: "lbl_…", Billing: "lbl_…" };
 
 export async function onInbound(message) {
@@ -41,8 +41,8 @@ export async function onInbound(message) {
 ```python Python
 import os, requests
 
-KEY = os.environ["SENTVIA_KEY"]
-API = "https://api.sentvia.ai/v1"
+KEY = os.environ["SENTFROMAI_API_KEY"]
+API = "https://api.sentfrom.ai/v1"
 LABELS = {"Sales": "lbl_…", "Support": "lbl_…", "Billing": "lbl_…"}
 
 def on_inbound(message):

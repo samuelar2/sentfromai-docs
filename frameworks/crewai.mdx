@@ -1,6 +1,6 @@
 ---
 title: 'CrewAI'
-description: 'Give a CrewAI agent email tools backed by SentVia.'
+description: 'Give a CrewAI agent email tools backed by SentFromAI.'
 ---
 
 CrewAI exposes tools via the `@tool` decorator; attach them to an agent.
@@ -18,8 +18,8 @@ import os, requests
 from crewai import Agent, Task, Crew
 from crewai.tools import tool
 
-API = "https://api.sentvia.ai/v1"
-H = {"Authorization": f"Bearer {os.environ['SENTVIA_KEY']}"}
+API = "https://api.sentfrom.ai/v1"
+H = {"Authorization": f"Bearer {os.environ['SENTFROMAI_API_KEY']}"}
 
 @tool("Send email")
 def send_email(inbox_id: str, to: str, subject: str, body: str) -> str:
@@ -45,4 +45,4 @@ task = Task(description="Check inbox inb_123 and draft replies.", agent=concierg
 print(Crew(agents=[concierge], tasks=[task]).kickoff())
 ```
 
-<Tip>CrewAI also supports MCP — the [SentVia MCP server](/guides/mcp) gives you these tools with no wrappers.</Tip>
+<Tip>CrewAI also supports MCP — the [SentFromAI MCP server](/guides/mcp) gives you these tools with no wrappers.</Tip>

@@ -1,15 +1,15 @@
 ---
 title: 'API reference'
-description: 'Base URL, authentication, and conventions for the SentVia API.'
+description: 'Base URL, authentication, and conventions for the SentFromAI API.'
 ---
 
-The SentVia API is organized around REST: predictable resource URLs, JSON request
+The SentFromAI API is organized around REST: predictable resource URLs, JSON request
 and response bodies, and standard HTTP status codes.
 
 ## Base URL
 
 ```
-https://api.sentvia.ai/v1
+https://api.sentfrom.ai/v1
 ```
 
 ## Authentication
@@ -17,11 +17,11 @@ https://api.sentvia.ai/v1
 Every request requires a Bearer API key:
 
 ```bash
-curl https://api.sentvia.ai/v1/inboxes \
-  -H "Authorization: Bearer sv_live_…"
+curl https://api.sentfrom.ai/v1/inboxes \
+  -H "Authorization: Bearer sf_live_…"
 ```
 
-Create and revoke keys in the [dashboard](https://console.sentvia.ai). See
+Create and revoke keys in the [dashboard](https://console.sentfrom.ai). See
 [Authentication](/authentication) for details.
 
 ## Conventions
@@ -33,5 +33,5 @@ Create and revoke keys in the [dashboard](https://console.sentvia.ai). See
 - **Idempotency** — pass a `client_id` on sends to make retries safe.
 
 The endpoints in this section are generated from our
-[OpenAPI spec](https://api.sentvia.ai/openapi.json) — use the
+[OpenAPI spec](https://api.sentfrom.ai/openapi.json) — use the
 **Try it** panel to call them live with your key.

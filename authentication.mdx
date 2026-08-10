@@ -6,25 +6,25 @@ description: 'API keys, the base URL, and how requests are authenticated.'
 ## Base URL
 
 ```
-https://api.sentvia.ai/v1
+https://api.sentfrom.ai/v1
 ```
 
 All product endpoints live under `/v1`. Requests and responses are JSON.
 
 ## API keys
 
-SentVia authenticates with a **Bearer API key**. Create and revoke keys from the
-[dashboard](https://console.sentvia.ai) under **API keys**. A key looks like:
+SentFromAI authenticates with a **Bearer API key**. Create and revoke keys from the
+[dashboard](https://console.sentfrom.ai) under **API keys**. A key looks like:
 
 ```
-sv_live_3Sg…
+sf_live_3Sg…
 ```
 
 Pass it on every request:
 
 ```bash
-curl https://api.sentvia.ai/v1/inboxes \
-  -H "Authorization: Bearer sv_live_…"
+curl https://api.sentfrom.ai/v1/inboxes \
+  -H "Authorization: Bearer sf_live_…"
 ```
 
 <Warning>

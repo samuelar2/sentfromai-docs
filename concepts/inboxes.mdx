@@ -9,8 +9,8 @@ group messages into threads, and are the unit you provision per agent, user, or 
 ## Create an inbox
 
 ```bash
-curl -X POST https://api.sentvia.ai/v1/inboxes \
-  -H "Authorization: Bearer sv_live_…" -H "Content-Type: application/json" \
+curl -X POST https://api.sentfrom.ai/v1/inboxes \
+  -H "Authorization: Bearer sf_live_…" -H "Content-Type: application/json" \
   -d '{ "local_part": "support-bot", "display_name": "Support" }'
 ```
 
@@ -19,7 +19,7 @@ curl -X POST https://api.sentvia.ai/v1/inboxes \
   "id": "b1f2…",
   "local_part": "support-bot",
   "display_name": "Support",
-  "address": "support-bot@mail.sentvia.ai"
+  "address": "support-bot@mail.sentfrom.ai"
 }
 ```
 
@@ -27,7 +27,7 @@ curl -X POST https://api.sentvia.ai/v1/inboxes \
 | --- | --- | --- |
 | `local_part` | yes | The part before the `@`. Lowercased automatically; `[a-z0-9._-]` only. |
 | `display_name` | no | Friendly From name on outbound mail. |
-| `domain_id` | no | A verified [custom domain](/guides/custom-domains). Defaults to the shared `mail.sentvia.ai`. |
+| `domain_id` | no | A verified [custom domain](/guides/custom-domains). Defaults to the shared `mail.sentfrom.ai`. |
 
 <Note>
   Addresses are **globally unique** on the shared domain. Re-using a `local_part`
@@ -37,8 +37,8 @@ curl -X POST https://api.sentvia.ai/v1/inboxes \
 ## List & delete
 
 ```bash
-curl https://api.sentvia.ai/v1/inboxes -H "Authorization: Bearer sv_live_…"
-curl -X DELETE https://api.sentvia.ai/v1/inboxes/INBOX_ID -H "Authorization: Bearer sv_live_…"
+curl https://api.sentfrom.ai/v1/inboxes -H "Authorization: Bearer sf_live_…"
+curl -X DELETE https://api.sentfrom.ai/v1/inboxes/INBOX_ID -H "Authorization: Bearer sf_live_…"
 ```
 
 ## Inbox limits
@@ -54,4 +54,4 @@ returns `402 inbox_limit_reached` with `upgrade: true`.
 | Business | 15,000 |
 
 Agents typically create **one inbox per user or task**, so generous limits matter
-— see the [dashboard](https://console.sentvia.ai) for your current usage.
+— see the [dashboard](https://console.sentfrom.ai) for your current usage.

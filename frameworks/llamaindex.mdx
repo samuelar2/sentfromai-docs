@@ -19,8 +19,8 @@ from llama_index.core.tools import FunctionTool
 from llama_index.core.agent.workflow import FunctionAgent
 from llama_index.llms.openai import OpenAI
 
-API = "https://api.sentvia.ai/v1"
-H = {"Authorization": f"Bearer {os.environ['SENTVIA_KEY']}"}
+API = "https://api.sentfrom.ai/v1"
+H = {"Authorization": f"Bearer {os.environ['SENTFROMAI_API_KEY']}"}
 
 def send_email(inbox_id: str, to: str, subject: str, body: str) -> dict:
     """Send an email from an inbox to a recipient."""
@@ -41,4 +41,4 @@ import asyncio
 print(asyncio.run(agent.run("Check inbox inb_123 and tell me what needs a reply.")))
 ```
 
-<Tip>LlamaIndex also has first-class MCP support — the [SentVia MCP server](/guides/mcp) drops in directly.</Tip>
+<Tip>LlamaIndex also has first-class MCP support — the [SentFromAI MCP server](/guides/mcp) drops in directly.</Tip>

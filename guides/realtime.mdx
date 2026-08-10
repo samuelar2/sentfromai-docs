@@ -3,13 +3,13 @@ title: 'Realtime (WebSocket)'
 description: 'Stream your workspace events live over a WebSocket.'
 ---
 
-For low-latency agents, open a WebSocket and SentVia pushes your events the moment they happen —
+For low-latency agents, open a WebSocket and SentFromAI pushes your events the moment they happen —
 no webhook endpoint required.
 
 ## Connect
 
 ```
-wss://api.sentvia.ai/v1/realtime?token=sv_live_…
+wss://api.sentfrom.ai/v1/realtime?token=sf_live_…
 ```
 
 Authentication is the `token` query parameter (a WebSocket handshake can't set headers), using
@@ -17,7 +17,7 @@ the same API key as the REST API.
 
 <CodeGroup>
 ```ts TypeScript
-const ws = new WebSocket(`wss://api.sentvia.ai/v1/realtime?token=${process.env.SENTVIA_KEY}`);
+const ws = new WebSocket(`wss://api.sentfrom.ai/v1/realtime?token=${process.env.SENTFROMAI_API_KEY}`);
 
 ws.onmessage = (e) => {
   const frame = JSON.parse(e.data);
@@ -32,7 +32,7 @@ ws.onmessage = (e) => {
 import json, os, websockets, asyncio
 
 async def main():
-    url = f"wss://api.sentvia.ai/v1/realtime?token={os.environ['SENTVIA_KEY']}"
+    url = f"wss://api.sentfrom.ai/v1/realtime?token={os.environ['SENTFROMAI_API_KEY']}"
     async with websockets.connect(url) as ws:
         async for raw in ws:
             frame = json.loads(raw)

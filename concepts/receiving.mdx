@@ -9,9 +9,9 @@ ways: **webhooks** (push, recommended) or **polling** with `GET /messages`.
 ## Register a webhook
 
 ```bash
-curl -X POST https://api.sentvia.ai/v1/webhooks \
-  -H "Authorization: Bearer sv_live_…" -H "Content-Type: application/json" \
-  -d '{ "url": "https://your-app.com/sentvia", "events": ["message.received","message.bounced"] }'
+curl -X POST https://api.sentfrom.ai/v1/webhooks \
+  -H "Authorization: Bearer sf_live_…" -H "Content-Type: application/json" \
+  -d '{ "url": "https://your-app.com/sentfromai", "events": ["message.received","message.bounced"] }'
 ```
 
 The response returns a signing **`secret`** — shown **once**. Store it; you'll use
@@ -32,8 +32,8 @@ it to verify every delivery.
 Each delivery is a JSON `POST` with two headers:
 
 ```http
-x-sentvia-event: message.received
-x-sentvia-signature: sha256=<hmac>
+x-sentfromai-event: message.received
+x-sentfromai-signature: sha256=<hmac>
 ```
 
 The body is `{ "event": "...", ...payload }`. Verify it by computing an
@@ -65,5 +65,5 @@ included in the payload; see [Attachments](/guides/attachments).
 No public endpoint? Poll recent mail instead:
 
 ```bash
-curl "https://…/v1/messages?inbox_id=INBOX_ID&limit=25" -H "Authorization: Bearer sv_live_…"
+curl "https://…/v1/messages?inbox_id=INBOX_ID&limit=25" -H "Authorization: Bearer sf_live_…"
 ```

@@ -7,13 +7,13 @@ description: 'Common questions and how to resolve the errors you might hit.'
 
 <AccordionGroup>
   <Accordion title="How do I get an API key?">
-    In the [dashboard](https://console.sentvia.ai) → **API keys** → create a key. It looks like
-    `sv_live_…`. Pass it as `Authorization: Bearer sv_live_…` on every request. Keys are
+    In the [dashboard](https://console.sentfrom.ai) → **API keys** → create a key. It looks like
+    `sf_live_…`. Pass it as `Authorization: Bearer sf_live_…` on every request. Keys are
     workspace-scoped; create one per service or environment and revoke freely.
   </Accordion>
   <Accordion title="How do I create my first inbox?">
     `POST /inboxes { "local_part": "support-bot" }` returns an address on the shared
-    `mail.sentvia.ai` domain, live immediately — no DNS setup. See [Inboxes](/concepts/inboxes).
+    `mail.sentfrom.ai` domain, live immediately — no DNS setup. See [Inboxes](/concepts/inboxes).
   </Accordion>
   <Accordion title="How do I handle inbound email?">
     Two options: register a [webhook](/concepts/receiving) for `message.received` (push,
@@ -21,7 +21,7 @@ description: 'Common questions and how to resolve the errors you might hit.'
     the [realtime WebSocket](/guides/realtime).
   </Accordion>
   <Accordion title="How do I keep replies in the same conversation?">
-    Use `POST /messages/{id}/reply` — SentVia derives the recipient and sets the
+    Use `POST /messages/{id}/reply` — SentFromAI derives the recipient and sets the
     `In-Reply-To`/`References` headers automatically. See [Threads](/concepts/threads).
   </Accordion>
   <Accordion title="How do I block or allow specific senders?">
@@ -41,7 +41,7 @@ description: 'Common questions and how to resolve the errors you might hit.'
   <Accordion title="What does a 402 (with upgrade: true) mean?">
     A plan limit was hit. The `error` tells you which: `inbox_limit_reached`,
     `custom_domains_require_paid_plan`, `dedicated_subdomain_requires_scale`, or
-    `storage_limit_reached`. Upgrade from [Billing](https://console.sentvia.ai).
+    `storage_limit_reached`. Upgrade from [Billing](https://console.sentfrom.ai).
   </Accordion>
   <Accordion title='Why do I get 409 "address_taken"?'>
     That inbox address is already in use (addresses are globally unique on the shared domain).

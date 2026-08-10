@@ -3,7 +3,7 @@ title: 'Vercel AI SDK'
 description: 'Email tools for the Vercel AI SDK (TypeScript).'
 ---
 
-Define SentVia operations as AI SDK tools with `tool()` + a Zod schema, then pass them to
+Define SentFromAI operations as AI SDK tools with `tool()` + a Zod schema, then pass them to
 `generateText` (or `streamText`).
 
 ## Install
@@ -19,8 +19,8 @@ import { generateText, tool } from "ai";
 import { openai } from "@ai-sdk/openai";
 import { z } from "zod";
 
-const API = "https://api.sentvia.ai/v1";
-const H = { Authorization: `Bearer ${process.env.SENTVIA_KEY}`, "Content-Type": "application/json" };
+const API = "https://api.sentfrom.ai/v1";
+const H = { Authorization: `Bearer ${process.env.SENTFROMAI_API_KEY}`, "Content-Type": "application/json" };
 const call = (path: string, body?: unknown, method = "POST") =>
   fetch(`${API}${path}`, { method, headers: H, body: body && JSON.stringify(body) }).then((r) => r.json());
 
@@ -51,4 +51,4 @@ const { text } = await generateText({
 console.log(text);
 ```
 
-<Tip>For zero wrapper code, point an MCP-capable runtime at the [SentVia MCP server](/guides/mcp).</Tip>
+<Tip>For zero wrapper code, point an MCP-capable runtime at the [SentFromAI MCP server](/guides/mcp).</Tip>
