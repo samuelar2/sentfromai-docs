@@ -73,6 +73,54 @@ it runs wherever your agent runs (Node 20+). Source and issues:
 [github.com/sentfromai/sentfromai-mcp](https://github.com/sentfromai/sentfromai-mcp);
 it is also listed in the [official MCP registry](https://registry.modelcontextprotocol.io/v0/servers?search=ai.sentfrom) as `ai.sentfrom/mcp`.
 
+## Hosted endpoint (remote MCP)
+
+If your host only speaks *remote* MCP, or you would rather not run anything locally, connect to
+the hosted endpoint instead of `npx`:
+
+```
+https://api.sentfrom.ai/mcp
+```
+
+Same 21 tools, same tenant scoping, served over Streamable HTTP. Two ways to authenticate:
+
+- **API key**: send `Authorization: Bearer sf_live_…`. Works everywhere a bearer header can be set.
+- **Sign in**: hosts that support MCP OAuth (claude.ai, ChatGPT) discover SentFromAI's
+  authorization server automatically and open a sign-in to your SentFromAI account. The
+  connection then acts for your organization's tenant.
+
+<Tabs>
+  <Tab title="Claude Code (remote)">
+    ```bash
+    claude mcp add --transport http sentfromai https://api.sentfrom.ai/mcp --header "Authorization: Bearer sf_live_…"
+    ```
+  </Tab>
+  <Tab title="claude.ai / ChatGPT">
+    Add a custom connector with the URL `https://api.sentfrom.ai/mcp` and complete the
+    sign-in when prompted. No key to paste.
+  </Tab>
+  <Tab title="Cursor / JSON config">
+    ```json
+    {
+      "mcpServers": {
+        "sentfromai": {
+          "url": "https://api.sentfrom.ai/mcp",
+          "headers": { "Authorization": "Bearer sf_live_…" }
+        }
+      }
+    }
+    ```
+  </Tab>
+  <Tab title="Meta Muse">
+    Muse runs in Meta's cloud, so use the hosted endpoint: add a custom connector pointing at
+    `https://api.sentfrom.ai/mcp` with your API key as the bearer token.
+  </Tab>
+</Tabs>
+
+The endpoint is stateless (one JSON-RPC request per HTTP request, no sessions). Tool calls run
+against the same API as the REST routes, so suppression, allow/block rules, plan limits and
+usage metering apply identically.
+
 ## Available tools
 
 | Area | Tools |
