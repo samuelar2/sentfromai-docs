@@ -23,11 +23,19 @@ All you need is an API key (`sf_live_…`) from the
 
 <Tabs>
   <Tab title="Claude Code">
+    As a plugin — asks for the key when you enable it and adds a skill that teaches
+    Claude email etiquette:
+    ```bash
+    claude plugin marketplace add sentfromai/sentfromai-mcp
+    claude plugin install sentfromai@sentfromai
+    ```
+    Or as a plain MCP server:
     ```bash
     claude mcp add sentfromai --env SENTFROMAI_API_KEY=sf_live_… -- npx -y sentfromai-mcp
     ```
   </Tab>
-  <Tab title="Claude Desktop / JSON config">
+  <Tab title="Claude Desktop / Cursor / JSON config">
+    Works for Claude Desktop, Cursor, Windsurf, Cline and any host that takes a JSON MCP config:
     ```json
     {
       "mcpServers": {
@@ -39,18 +47,31 @@ All you need is an API key (`sf_live_…`) from the
       }
     }
     ```
+    VS Code: `code --add-mcp '{"name":"sentfromai","command":"npx","args":["-y","sentfromai-mcp"],"env":{"SENTFROMAI_API_KEY":"sf_live_…"}}'`
+  </Tab>
+  <Tab title="Gemini CLI">
+    ```bash
+    gemini extensions install https://github.com/sentfromai/sentfromai-mcp
+    ```
+    Gemini asks for the API key on install and keeps it in your keychain.
+  </Tab>
+  <Tab title="Codex CLI">
+    ```bash
+    codex mcp add sentfromai --env SENTFROMAI_API_KEY=sf_live_… -- npx -y sentfromai-mcp
+    ```
   </Tab>
   <Tab title="OpenClaw">
     ```bash
-    openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp
+    openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp --env SENTFROMAI_API_KEY=sf_live_…
     ```
-    then set `SENTFROMAI_API_KEY` in the server's `env`. Full walkthrough:
-    [OpenClaw guide](/frameworks/openclaw).
+    Full walkthrough, including the OpenClaw skill: [OpenClaw guide](/frameworks/openclaw).
   </Tab>
 </Tabs>
 
 The server is a thin stdio wrapper over the REST API — no state of its own, and
-it runs wherever your agent runs (Node 20+).
+it runs wherever your agent runs (Node 20+). Source and issues:
+[github.com/sentfromai/sentfromai-mcp](https://github.com/sentfromai/sentfromai-mcp);
+it is also listed in the [official MCP registry](https://registry.modelcontextprotocol.io/v0/servers?search=ai.sentfrom) as `ai.sentfrom/mcp`.
 
 ## Available tools
 
@@ -63,6 +84,13 @@ it runs wherever your agent runs (Node 20+).
 | Domains | `add_domain` · `get_domain` |
 | Webhooks | `create_webhook` · `list_webhooks` · `delete_webhook` |
 | Allow/block lists | `add_address_rule` · `list_address_rules` · `delete_address_rule` |
+
+Every tool carries MCP annotations: reads are marked read-only, `send_message`,
+`reply_to_message`, `forward_message` and `send_draft` are marked as reaching the
+outside world, and `delete_*` as destructive, so hosts can group them and confirm
+the irreversible ones. API failures come back as tool results with the HTTP status
+(a `401` means the key is wrong, a `402` that the plan limit is reached), so the
+agent can tell you rather than retry.
 
 Because the tools map onto the same endpoints documented in the
 [API reference](/api-reference/introduction), everything you read here applies —

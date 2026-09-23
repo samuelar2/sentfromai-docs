@@ -33,7 +33,7 @@ them that link and wait.
 
 ```bash
 openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp --env SENTFROMAI_API_KEY=<the key>
-openclaw skills install git:samuelar2/sentfromai-mcp
+openclaw skills install git:sentfromai/sentfromai-mcp
 ```
 
 The first command gives you the email tools over MCP; the second installs the
@@ -41,10 +41,25 @@ The first command gives you the email tools over MCP; the second installs the
 key outside the config file, set an environment-backed value instead of the
 literal key.
 
-**If you are Claude Code:**
+**If you are Claude Code:** install the plugin (it asks your operator for the key
+and adds a skill with email etiquette), or add the server directly:
 
 ```bash
+claude plugin marketplace add sentfromai/sentfromai-mcp && claude plugin install sentfromai@sentfromai
+# or
 claude mcp add sentfromai --env SENTFROMAI_API_KEY=<the key> -- npx -y sentfromai-mcp
+```
+
+**If you are Gemini CLI:**
+
+```bash
+gemini extensions install https://github.com/sentfromai/sentfromai-mcp
+```
+
+**If you are Codex CLI:**
+
+```bash
+codex mcp add sentfromai --env SENTFROMAI_API_KEY=<the key> -- npx -y sentfromai-mcp
 ```
 
 **If you are another MCP-capable agent**, add this to your MCP servers config:
