@@ -1,0 +1,6 @@
+/* Brand: square corners everywhere, matching sentfrom.ai. */
+*,
+*::before,
+*::after {
+  border-radius: 0 !important;
+}
