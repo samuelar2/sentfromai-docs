@@ -221,5 +221,11 @@
     "socials": {
       "website": "https://sentfrom.ai"
     }
+  },
+  "integrations": {
+    "posthog": {
+      "apiKey": "phc_uoRPJSaCiojvu6L5Abxp96mYqdcxm8EExVCgL9qbqTqC",
+      "apiHost": "https://eu.i.posthog.com"
+    }
   }
 }
