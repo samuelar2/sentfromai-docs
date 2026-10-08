@@ -10,11 +10,11 @@ agent reading this to implement SentFromAI, you have everything you need below.
   **Shortest path** — paste this into your agent and it sets everything up itself:
 
   ```text
-  Set up SentFromAI email for yourself: fetch https://docs.sentfrom.ai/agent-install.md
-  and follow it. Ask me for the API key when you need it.
+  Set up email for yourself: https://docs.sentfrom.ai/agent-install.md
   ```
 
-  Details: [Agent self-install](/agent-install).
+  The guide tells the agent how to reuse your account, save credentials securely,
+  and return a private claim link only when needed. [Set up your agent](/agent-install).
 </Tip>
 
 ## Ingest the whole docs
@@ -31,12 +31,20 @@ docs page URL to get its raw Markdown.
 ## The essentials
 
 - **Base URL:** `https://api.sentfrom.ai/v1`
-- **Auth:** `Authorization: Bearer sf_live_…` on every request ([details](/authentication)).
+- **Auth:** `Authorization: Bearer sf_live_…` on authenticated requests. `POST /agent-signups` bootstraps a key without authentication when enabled ([details](/agent-install)).
 - **Format:** JSON in, JSON out. Errors are `{ "error": "…" }` with standard status codes ([reference](/guides/errors)).
+
+## Start with an account
+
+Follow [Set up your agent](/agent-install): reuse a saved key or bootstrap an inbox
+through REST, then hand the private claim link to your operator. Unclaimed
+accounts can receive and read within their limits; sending and other changes
+require a human claim. Read current capabilities through `GET /account`.
 
 ## The core loop
 
-Most agents follow the same loop. Each step links to its full reference:
+After claiming the account, agents can use this loop. Reuse the signup inbox;
+create more only when needed and permitted by account limits:
 
 <Steps>
   <Step title="Create an inbox">
@@ -87,7 +95,8 @@ framework](/frameworks/overview)? There's a per-framework recipe for each.
 </CardGroup>
 
 <Note>
-  Get a key from the [dashboard](https://console.sentfrom.ai) → **API keys**. The free plan gives
+  Reuse the key from [agent setup](/agent-install), or create one manually in the
+  [dashboard](https://console.sentfrom.ai) → **API keys**. After claiming, the free plan gives
   5 inboxes, 5,000 emails/month, and 5 GB of attachment storage — enough to run a real
   agent, not just a demo. Paid plans start at $19/mo for 100 inboxes and 20,000 emails.
 </Note>

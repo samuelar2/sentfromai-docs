@@ -1,0 +1,13 @@
+---
+title: 'Get account status'
+description: 'Read onboarding state, capabilities and current limits with the saved API key.'
+openapi: 'GET /account'
+---
+
+Requires the agent-onboarding API release. See [Set up your agent](/agent-install)
+for credential handling, safe retries and the human claim flow.
+
+Check `sending_status` and `capabilities.send` before attempting to send. A claimed
+account can still be paused. `usage.received_messages` and `usage.received_bytes`
+track the onboarding receive quota, not lifetime or billing usage after claim.
+An expired account can read its status here but cannot read inbox/message contents.

@@ -1,0 +1,123 @@
+---
+title: 'Bootstrap an agent inbox'
+description: 'A Python example that saves signup credentials privately and never prints the API key.'
+---
+
+Use this example only when [agent signup](/agent-install) is enabled. It sends one
+signup request per run, saves its response in a private local file, and prints only the
+inbox address. Existing credentials are reused. It does not send email or claim
+the account for the human.
+
+A secrets manager is preferable in deployed agents. This local example uses a
+private directory and a file readable only by the current user. Keep this file
+out of repositories and shared folders. Do not enable HTTP request/response logging.
+
+```python
+import json
+import os
+from pathlib import Path
+import secrets
+import time
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
+
+BASE = "https://api.sentfrom.ai/v1"
+# Default server replay window; use the configured value for your deployment.
+REPLAY_SECONDS = 60 * 60
+folder = Path.home() / ".config" / "sentfromai"
+folder.mkdir(parents=True, exist_ok=True, mode=0o700)
+os.chmod(folder, 0o700)
+state_file = folder / "agent-account.json"
+state = json.loads(state_file.read_text()) if state_file.exists() else {}
+key = os.environ.get("SENTFROMAI_API_KEY") or state.get("response", {}).get("api_key")
+
+
+def request(path, *, key=None, payload=None, idempotency_key=None):
+    headers = {"Accept": "application/json"}
+    if key:
+        headers["Authorization"] = "Bearer " + key
+    if idempotency_key:
+        headers["Idempotency-Key"] = idempotency_key
+    data = None
+    if payload is not None:
+        headers["Content-Type"] = "application/json"
+        data = json.dumps(payload).encode()
+    req = Request(BASE + path, data=data, headers=headers)
+    try:
+        with urlopen(req, timeout=30) as response:
+            return json.load(response)
+    except HTTPError as error:
+        # Only print known machine codes; never echo arbitrary bodies or headers.
+        known = {"invalid_request", "invalid_address", "invalid_idempotency_key",
+                 "idempotency_conflict", "signup_replay_expired", "address_taken",
+                 "address_reserved", "signup_rate_limited", "signup_disabled",
+                 "signup_unavailable", "account_claim_required",
+                 "unclaimed_account_expired", "account_suspended"}
+        try:
+            code = json.load(error).get("error")
+        except (ValueError, AttributeError):
+            code = None
+        detail = code if code in known else "request_failed"
+        retry = error.headers.get("Retry-After", "")
+        wait = f" Retry after {retry} seconds." if error.code == 429 and retry.isdigit() else ""
+        raise SystemExit(f"HTTP {error.code} {detail}; keep the saved state.{wait}")
+    except (URLError, TimeoutError, ValueError):
+        raise SystemExit("Outcome unknown; keep the saved state. Do not create another signup.")
+
+
+if key:
+    account = request("/account", key=key)
+    print("Account:", account["onboarding_state"], "— sending:", account["sending_status"])
+    if account["expired"] or not account["capabilities"]["read"]:
+        raise SystemExit("Account is not available for reading. Preserve the key and ask your operator to resolve its status.")
+    inboxes = request("/inboxes", key=key)["inboxes"]
+    print("Existing inboxes:", ", ".join(inbox["address"] for inbox in inboxes))
+else:
+    if state_file.exists():
+        # Resume an unknown outcome with exactly the original secret and payload.
+        if time.time() >= state["attempted_at"] + REPLAY_SECONDS:
+            raise SystemExit("Signup replay expired. Recover the original API key or use the claimed console account; do not create a replacement account.")
+    else:
+        state = {
+            "idempotency_key": secrets.token_urlsafe(32),
+            "request": {"name": "My agent"},
+            "attempted_at": time.time(),
+        }
+        # Persist before the request. Exclusive creation stops simultaneous starts.
+        fd = os.open(state_file, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        with os.fdopen(fd, "w") as file:
+            json.dump(state, file)
+            file.flush()
+            os.fsync(file.fileno())
+    result = request("/agent-signups", payload=state["request"],
+                     idempotency_key=state["idempotency_key"])
+    state["response"] = result
+    pending = folder / (".account-" + secrets.token_hex(8))
+    fd = os.open(pending, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+    with os.fdopen(fd, "w") as file:
+        json.dump(state, file)
+        file.flush()
+        os.fsync(file.fileno())
+    os.replace(pending, state_file)
+    print("Inbox:", result["inbox"]["address"])
+    print("Credentials and private claim link saved; share only the claim link with your operator in your existing chat.")
+```
+
+On success, read `response.claim_url` from the private saved state and give it to
+your actual operator in your existing chat. The claim link contains a secret;
+do not print it into general logs or send it by email. The human signs in,
+verifies their own primary email outside SentFromAI-managed inboxes and confirms
+the claim. Poll `GET /account` with the saved
+API key to check whether sending is enabled.
+
+If a request's outcome is unknown, run the example again within the configured
+signup replay window (60 minutes by default). It reuses exactly the saved
+`idempotency_key` and `request`, without creating a new identity or rotating the
+key. Respect `Retry-After` on `429`. After the replay window, it stops: recover
+the original key or use the claimed console account. The server is authoritative
+and returns `410 signup_replay_expired` once replay has expired, even if the
+client's configured window is longer.
+
+If a claim link expires while the unclaimed account remains active, authenticated
+`POST /account/claim-link` returns a fresh one. Store its response privately.
+Refreshing the link does not extend the unclaimed account's lifetime.

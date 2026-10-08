@@ -20,7 +20,7 @@ SentFromAI authenticates with a **Bearer API key**. Create and revoke keys from 
 sf_live_3Sg…
 ```
 
-Pass it on every request:
+Pass it on authenticated requests:
 
 ```bash
 curl https://api.sentfrom.ai/v1/inboxes \
@@ -28,10 +28,24 @@ curl https://api.sentfrom.ai/v1/inboxes \
 ```
 
 <Warning>
-  Keys grant full access to your workspace's inboxes and mail. **Never** ship a
+  Keys grant access to your workspace's inboxes and mail within its account state
+  and limits. **Never** ship a
   key in client-side code or commit it to source control. Store it in an
   environment variable or a secrets manager.
 </Warning>
+
+## Agent-created accounts
+
+When agent signup is enabled, `POST /agent-signups` issues an API key and inbox
+without a prior login. It requires a securely saved high-entropy `Idempotency-Key`.
+The account starts unclaimed: receiving and reads work within its limits; sending
+and other changes wait for a verified human claim. The claim uses a separate
+secret in a console URL fragment and preserves the original API key and inbox.
+See [Set up your agent](/agent-install).
+
+`GET /account` reports capabilities. `POST /account/claim-link` refreshes a claim
+link using the original API key while the unclaimed account remains active.
+Neither route should be called with the claim token as its bearer key.
 
 ## Key management
 

@@ -15,10 +15,11 @@ Errors are returned with a standard HTTP status and a JSON body:
 | --- | --- | --- |
 | `400` | Bad request | A required field is missing or malformed. |
 | `401` | Unauthorized | Missing or invalid API key. |
+| `403` | Action unavailable | Inspect account state; an unclaimed account requires its human claim before sending or changing resources. |
 | `402` | Upgrade required | A plan limit was hit (`upgrade: true`). See below. |
 | `404` | Not found | The resource doesn't exist or isn't yours. |
 | `409` | Conflict | `address_taken` — that inbox address is already in use. |
-| `413` | Payload too large | `attachment_too_large` — over the per-message size limit. |
+| `413` | Payload too large | Attachment/message size limit, or an agent signup body over 4096 bytes. |
 | `422` | Unprocessable | `no deliverable recipients` — all recipients suppressed/blocked. |
 
 ## Plan-limit errors (`402`)
@@ -32,9 +33,27 @@ These carry `upgrade: true` so you can prompt the user to upgrade:
 | `dedicated_subdomain_requires_scale` | Dedicated subdomains need Scale or higher. |
 | `storage_limit_reached` | Over your attachment storage cap. |
 
+## Agent onboarding errors
+
+| Code | Action |
+| --- | --- |
+| `400 invalid_idempotency_key` | Generate a 32–128 character URL-safe random secret and save it before the first signup request. |
+| `409 idempotency_conflict` | Reuse the exact saved signup body with its original secret. |
+| `410 signup_replay_expired` | The signup previously succeeded. Recover its original API key or use the claimed console account; this secret will not create another tenant. |
+| `403 account_claim_required` | Give the private claim link to the actual operator in the existing chat; wait for explicit verified ownership. |
+| `403 unclaimed_account_expired` / `410 account_expired` | The unclaimed account's lifetime ended. Refreshing a link does not extend it. |
+| `404 invalid_claim` | Link invalid or expired. An active unclaimed account can obtain a new link using its API key. |
+| `409 already_claimed` | Reuse the existing account; no further claim is needed. |
+| `429 signup_rate_limited` / `claim_rate_limited` | Respect `Retry-After`; never create alternate identities to bypass limits. |
+| `503 signup_disabled` / `signup_unavailable` | Signup rollout or prerequisites are unavailable. Use existing credentials or the console path. |
+
+Signup replay defaults to 60 minutes and claim links to 30 minutes; both are
+configurable. Keep the original secret and body across network retries. The
+[bootstrap example](/examples/agent-signup) saves them before its first request.
+
 ## Recommendations
 
-- **Authenticate** every request and handle `401` by surfacing a key problem, not retrying.
+- **Authenticate** every product request (agent signup is the bootstrap exception) and handle `401` by surfacing a key problem, not retrying.
 - **Treat `402` as actionable** — link the user to billing rather than failing silently.
 - **Use idempotency** (`client_id`) on sends so retries after a network blip never duplicate mail.
 - **Verify webhook signatures** and return `2xx` quickly; failures are retried with backoff.

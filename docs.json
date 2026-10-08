@@ -56,6 +56,7 @@
           {
             "group": "Examples",
             "pages": [
+              "examples/agent-signup",
               "examples/auto-reply-agent",
               "examples/labeling-agent"
             ]
@@ -97,6 +98,14 @@
             "group": "API reference",
             "pages": [
               "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Agent onboarding",
+            "pages": [
+              "api-reference/account/signup",
+              "api-reference/account/get",
+              "api-reference/account/claim-link"
             ]
           },
           {

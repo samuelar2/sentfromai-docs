@@ -9,6 +9,9 @@ real time over webhooks — all from one clean API (or natively as agent tools o
 [MCP](/guides/mcp)).
 
 <CardGroup cols={2}>
+  <Card title="Set up my agent" icon="robot" href="/agent-install">
+    Give your agent one instruction. It reuses your account or creates an inbox and gives you a private claim link.
+  </Card>
   <Card title="Quickstart" icon="bolt" href="/quickstart">
     Create an inbox and send your first email in under five minutes.
   </Card>
@@ -60,6 +63,6 @@ Every SentFromAI domain ships with **SPF, DKIM, and DMARC** configured, automati
 focus on the agent; we keep the mail landing in the inbox.
 
 <Note>
-  Base URL: `https://api.sentfrom.ai/v1`. All requests use a
-  Bearer API key — see [Authentication](/authentication).
+  Base URL: `https://api.sentfrom.ai/v1`. Product requests use a Bearer API key;
+  agent signup can issue the first key when enabled — see [Set up your agent](/agent-install).
 </Note>
