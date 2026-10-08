@@ -14,7 +14,8 @@ https://api.sentfrom.ai/v1
 
 ## Authentication
 
-Every request requires a Bearer API key:
+Product requests require a Bearer API key. The exception is `POST /agent-signups`,
+which bootstraps the first key when agent signup is enabled:
 
 ```bash
 curl https://api.sentfrom.ai/v1/inboxes \
@@ -30,7 +31,7 @@ Create and revoke keys in the [dashboard](https://console.sentfrom.ai). See
 - **IDs** are opaque strings; don't parse them.
 - **Timestamps** are ISO-8601 UTC.
 - **Errors** use standard status codes with an `{ "error": "…" }` body — see [Error handling](/guides/errors).
-- **Idempotency** — pass a `client_id` on sends to make retries safe.
+- **Idempotency** — pass a `client_id` on sends. Agent signup instead requires a securely saved `Idempotency-Key` header; see [agent setup](/agent-install).
 
 The endpoints in this section are generated from our
 [OpenAPI spec](https://api.sentfrom.ai/openapi.json) — use the

@@ -20,11 +20,11 @@ Things an OpenClaw agent does with its own address:
 ## Connect
 
 <Tip>
-  **Zero-setup path**: paste this into OpenClaw and it installs everything itself —
+  **Agent setup:** paste this into OpenClaw. The guide handles account reuse,
+  credential storage, and claiming a new inbox.
 
   ```text
-  Set up SentFromAI email for yourself: fetch https://docs.sentfrom.ai/agent-install.md
-  and follow it. Ask me for the API key when you need it.
+  Set up email for yourself: https://docs.sentfrom.ai/agent-install.md
   ```
 </Tip>
 
@@ -73,15 +73,18 @@ openclaw skills install git:sentfromai/sentfromai-mcp
 
 ## Give the agent its address
 
-Once connected, this is a single instruction to your agent:
+If you used agent setup, the inbox already exists: reuse it and complete the
+private claim flow before sending. With a claimed account, this instruction
+checks for an existing inbox before creating one:
 
 ```
-Create yourself an inbox called "claw" and introduce yourself
-to me by email at sam@example.com.
+Reuse your existing inbox, or create one called "claw" if you have none.
+Once sending is enabled, introduce yourself to me by email at sam@example.com.
 ```
 
-OpenClaw calls `create_inbox` (→ `claw@mail.sentfrom.ai`, live immediately), then
-`send_message`. From there `search_messages`, `list_threads`, and
+OpenClaw calls `list_inboxes`, creates an inbox only when needed and permitted,
+then calls `send_message` when the account allows sending. From there
+`search_messages`, `list_threads`, and
 `reply_to_message` cover the daily loop.
 
 <Tip>

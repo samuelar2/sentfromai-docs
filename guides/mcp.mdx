@@ -17,9 +17,15 @@ appear directly in the model's tool list.
 
 ## Connect
 
-All you need is an API key (`sf_live_…`) from the
-[dashboard](https://console.sentfrom.ai) — the same keys as the REST API
-([Authentication](/authentication)).
+Use an existing API key or follow [Set up your agent](/agent-install) to create
+one through REST when signup is enabled. Bootstrap happens before connecting MCP.
+An unclaimed account permits reads within its limits; sending and other changes
+require its human claim. The same inbox and key remain after claiming.
+
+Configure the key through a protected host credential field or a private MCP
+configuration file. Never paste a real key into command-line arguments. For the
+stdio commands below, configure `SENTFROMAI_API_KEY` in the server environment
+privately before starting it.
 
 <Tabs>
   <Tab title="Claude Code">
@@ -31,7 +37,7 @@ All you need is an API key (`sf_live_…`) from the
     ```
     Or as a plain MCP server:
     ```bash
-    claude mcp add sentfromai --env SENTFROMAI_API_KEY=sf_live_… -- npx -y sentfromai-mcp
+    claude mcp add sentfromai -- npx -y sentfromai-mcp
     ```
   </Tab>
   <Tab title="Claude Desktop / Cursor / JSON config">
@@ -47,7 +53,7 @@ All you need is an API key (`sf_live_…`) from the
       }
     }
     ```
-    VS Code: `code --add-mcp '{"name":"sentfromai","command":"npx","args":["-y","sentfromai-mcp"],"env":{"SENTFROMAI_API_KEY":"sf_live_…"}}'`
+    In VS Code, add the server through MCP configuration and enter the key in a protected input.
   </Tab>
   <Tab title="Gemini CLI">
     ```bash
@@ -57,12 +63,12 @@ All you need is an API key (`sf_live_…`) from the
   </Tab>
   <Tab title="Codex CLI">
     ```bash
-    codex mcp add sentfromai --env SENTFROMAI_API_KEY=sf_live_… -- npx -y sentfromai-mcp
+    codex mcp add sentfromai -- npx -y sentfromai-mcp
     ```
   </Tab>
   <Tab title="OpenClaw">
     ```bash
-    openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp --env SENTFROMAI_API_KEY=sf_live_…
+    openclaw mcp add sentfromai --command npx --arg -y --arg sentfromai-mcp
     ```
     Full walkthrough, including the OpenClaw skill: [OpenClaw guide](/frameworks/openclaw).
   </Tab>
@@ -92,7 +98,7 @@ Same 21 tools, same tenant scoping, served over Streamable HTTP. Two ways to aut
 <Tabs>
   <Tab title="Claude Code (remote)">
     ```bash
-    claude mcp add --transport http sentfromai https://api.sentfrom.ai/mcp --header "Authorization: Bearer sf_live_…"
+    claude mcp add --transport http sentfromai https://api.sentfrom.ai/mcp
     ```
   </Tab>
   <Tab title="claude.ai / ChatGPT">

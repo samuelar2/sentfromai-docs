@@ -8,10 +8,13 @@ description: 'Common questions and how to resolve the errors you might hit.'
 <AccordionGroup>
   <Accordion title="How do I get an API key?">
     In the [dashboard](https://console.sentfrom.ai) → **API keys** → create a key. It looks like
-    `sf_live_…`. Pass it as `Authorization: Bearer sf_live_…` on every request. Keys are
+    `sf_live_…`. Pass it as `Authorization: Bearer sf_live_…` on authenticated requests.
+    An agent can also obtain its first key and inbox through [agent setup](/agent-install)
+    when enabled, then hand you a private claim link to enable sending. Keys are
     workspace-scoped; create one per service or environment and revoke freely.
   </Accordion>
   <Accordion title="How do I create my first inbox?">
+    Agent signup creates one automatically; reuse that inbox. With a claimed account,
     `POST /inboxes { "local_part": "support-bot" }` returns an address on the shared
     `mail.sentfrom.ai` domain, live immediately — no DNS setup. See [Inboxes](/concepts/inboxes).
   </Accordion>
