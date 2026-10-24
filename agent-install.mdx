@@ -106,7 +106,10 @@ then becomes available subject to account limits, with warming starting at claim
 
 If the link expires while the unclaimed account is active, use the original key
 with `POST /v1/account/claim-link`. A refreshed link does not extend the account's
-lifetime. Links expire after 30 minutes by default. Poll `GET /v1/account` after
+lifetime. The default link lifetime is seven days, capped by the unclaimed
+account's original expiry. Use the returned `claim_expires_at` as the actual
+deadline; refreshing near account expiry may give much less than seven days.
+Poll `GET /v1/account` after
 the person confirms; opening the link alone does not claim the account. Its
 `usage.received_messages` and `usage.received_bytes` are onboarding quota counters,
 not lifetime or billing usage after claiming.

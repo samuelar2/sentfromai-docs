@@ -1,0 +1,65 @@
+---
+title: 'Beta scope and support'
+description: 'Understand supported use, verification deadlines, recovery, and release boundaries.'
+---
+
+The beta supports direct ES256 Agent Login for invited Owners of claimed SentFrom
+mailboxes, using a local companion and explicitly configured websites. It is for
+evaluation with non-sensitive data. It does not promise production availability,
+unlimited capacity, independent interoperability, or full protocol conformance.
+
+The planned Agent Login package versions are release candidates until registry
+publication is confirmed. Ordinary mail marketplace installations remain on their
+stable mail channel. Installing the beta companion is an explicit, separate step.
+
+## Support before admission
+
+Your invitation must name the beta operator, contact route, staffed hours, and
+urgent suspension route. Do not rely on an unannounced response time or assume
+24-hour monitoring. General product enquiries can use the existing
+[SentFrom support address](mailto:support@sentfrom.ai); this is not an independent
+factor-verification channel and carries no beta response-time guarantee.
+
+Do not send API keys, cookies, codes, private keys, claim links, or full login URLs
+in support reports. Include the time, visible error, browser/OS, package versions,
+and a redacted description of the step that failed. The operator can arrange
+protected collection of identifiers if needed.
+
+## Common situations
+
+| Situation | Next step |
+| --- | --- |
+| Verification expired | Use **Verify and return to your request**, complete your device prompt, then explicitly submit the decision. The saved request keeps its original deadline. |
+| Helper stopped polling | Stop polling. Resume explicitly with the same configured identity/application; retain the saved request and private key. |
+| Approval response was lost | Reload the saved request to inspect its state. Do not repeat the decision blindly. |
+| First passkey is pending | Complete the operator's independent fingerprint comparison. Email or signing in again cannot activate it. |
+| Saved setup reached its seven-day deadline | Start a new setup or enrollment through the normal flow. The operator cannot extend the original deadline by signing you in again. |
+| Mail claim link expired | A still-active unclaimed account can refresh its link with the original API key. The link cannot extend the account's original lifetime. |
+| Every human passkey is lost | Contact the named operator through the independently verified recovery channel. Recovery revokes existing agent identities and factors; old website accounts are not restored automatically. |
+| Agent signing key is lost or compromised | Use the human identity portal to revoke the affected identity. Follow reset and fresh enrollment if appropriate. Each website controls its own existing sessions. |
+
+Device prompts and current Owner approval authority last at most five minutes.
+That is separate from the seven-day saved decision period. The agent cannot approve
+its own access using its mailbox or API key. Operators never need your PIN,
+biometric information, passkey private key, or recovery secrets.
+
+## What still needs evidence
+
+The existing live test used one real approved identity. The clean-install test
+restored that identity into new software state. Before opening admission more
+widely, the release needs public-package installation, a genuinely new participant
+completing the documented process, an outside website integration, deployment
+recovery/rotation drills, and measured operating limits. AI peer reviews do not
+replace independent organisations implementing the protocol.
+
+AgentMail AgentID is a separate protocol integration. Its directory candidate
+status does not establish Core compatibility or a live AgentID acceptance result.
+The directory is optional; each website chooses its issuers and permissions.
+
+## Product terms
+
+Use the existing [SentFrom terms](https://sentfrom.ai/terms) and
+[privacy policy](https://sentfrom.ai/privacy), plus the destination website's
+terms. This beta guide adds no pricing commitment, support guarantee, or service
+level. Obtain applicable commercial terms before relying on it for paid or
+production work.

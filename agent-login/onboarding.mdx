@@ -1,0 +1,120 @@
+---
+title: 'Connect your agent'
+description: 'Claim a SentFrom mailbox, verify its human Owner, and approve a new agent key.'
+---
+
+You need a claimed SentFrom mailbox, a beta invitation, and a passkey on a device
+you control independently of your agent. Your invitation must identify the
+enrollment operator, support route, and independent human verification channel.
+If these are missing, arrange them before starting.
+
+## 1. Claim the mailbox
+
+Create a mailbox in the [console](https://console.sentfrom.ai), or ask your agent
+to follow [mailbox setup](/agent-install). If it creates an unclaimed mailbox,
+open the private claim link in your existing trusted conversation and sign in as
+the human Owner. Claiming preserves the address, messages, and API key.
+
+Claim links default to seven days but cannot outlive the unclaimed account's
+original expiry. The returned `claim_expires_at` is authoritative. Claiming an
+email account does not activate Agent Login.
+
+## 2. Set up your human passkey
+
+Open [SentFrom identity](https://identity.sentfrom.ai/identity) and sign in with
+the same account that owns the mailbox. The beta operator admits that account's
+immutable user ID; an email-address match alone is not enough.
+
+1. Select **Register your first passkey** and complete your device's prompt.
+2. Open **Details for your enrollment operator**. Through the independently
+   verified human channel, compare the Owner ID, enrollment generation, and the
+   entire 64-character passkey fingerprint with the operator.
+3. Confirm that your agent cannot exercise the device approval or access its PIN,
+   biometric approval, synchronization account, or recovery account. Never send
+   the operator a PIN, recovery secret, or private key.
+4. After activation, select **Check activation**, then **Verify with passkey**.
+
+An operator activation does not create a signed-in Owner session or approve an
+agent key. You still perform the device verification yourself. Adding a second
+independently protected passkey while the first works can avoid lost-factor recovery.
+
+## 3. Install and configure the companion
+
+<Note>
+  These are planned beta versions. Run the registry command only after the release
+  operator confirms publication. Before then, use the reviewed tarballs supplied
+  for the private pilot. Stable mail marketplace installations remain mail-only.
+</Note>
+
+Use a maintained Node.js release satisfying the companion's Node.js 22.13 minimum.
+Install the packages together in a dedicated directory:
+
+```sh
+npm install --save-exact agentlogin@0.2.0-beta.1 @agentlogin/mcp@0.2.0-beta.1 sentfromai-mcp@0.5.0-beta.1
+```
+
+Copy `node_modules/sentfromai-mcp/skills/agent-login/config.example.json` to a private
+file. Replace its handle with your exact mailbox address and `stateDirectory` with
+an absolute private directory. The example explicitly allows Agent Workspace;
+keep that target only if you authorize it. Do not add websites automatically from
+a catalog.
+
+The configuration must be owned by the launching user with mode `0600`, and its
+state directory with mode `0700`. Use the host's protected credential settings for
+`SENTFROMAI_API_KEY`; the JSON names that environment variable, not its secret value.
+
+```sh
+/absolute/install/node_modules/.bin/agentlogin-mcp --check-config /absolute/private/agentlogin.json
+```
+
+Add a separate local MCP server with the absolute executable path above and arguments
+`--config /absolute/private/agentlogin.json`. Supply the mailbox API key in its
+protected environment. The optional `identity-server.js` wrapper and
+`mcp-with-identity.json` are included for compatible hosts. A Git-cloned plugin
+needs the companion installed in that checkout; an unrelated project installation
+does not satisfy its imports.
+
+Never copy an existing identity's keys or cookies to onboard a new person.
+
+## 4. Approve the agent key
+
+Ask your agent to run `agentlogin_inventory`, then `agentlogin_enroll` for the
+configured identity. It generates a new private key locally and gives you a public
+approval link and fingerprint.
+
+Open that link yourself. Compare the address, key name, and full fingerprint with
+the request your agent started. This fingerprint identifies the **agent key**; it
+is different from your human passkey fingerprint. Verify your passkey if asked,
+then choose **Approve this key**. Decline unexpected requests.
+
+Tell your agent when you have approved. If its short polling task has stopped,
+it calls `agentlogin_enroll` again to resume the same saved request. It must keep
+the original request and key. Enrollment is complete only when the helper proves
+possession and reports `active`.
+
+## 5. Sign in and test a useful action
+
+Ask the agent to sign into the configured application. Review its destination,
+scopes, disclosure, terms, and privacy policy before accepting the tool's review.
+Complete any separate Owner approval personally; a tool cannot grant human consent.
+
+In Agent Workspace, save and read a non-sensitive test note. Then sign out and
+confirm that another action requires sign-in again. Keep the same operation ID
+for an explicitly requested retry after an uncertain write; do not automatically
+repeat a write with a new ID.
+
+## Keep your progress
+
+Setup, pending first-passkey activation, and agent-key requests each have their
+own seven-day deadline. Device prompts and Owner authority last at most five
+minutes. **Verify and return to your request** renews verification without
+submitting a decision or extending the saved request's original deadline.
+
+If browser identification expires, sign in again and use **Resume saved passkey
+setup** when offered. It requires proof from the same pending passkey. A paused
+helper can resume its saved request explicitly; stop polling when its tool tells
+you to stop. A resumed application sign-in uses a fresh protocol transaction and
+fresh disclosure review, not an expired approval.
+
+See [support and recovery](/agent-login/beta-support) for lost keys, denied requests,
+or an outcome that cannot be confirmed.

@@ -11,6 +11,11 @@ call. The agent simply *calls a tool*.
 
 ## Why MCP
 
+Application sign-in is a separate capability. The optional
+[Agent Login beta companion](/agent-login/onboarding) keeps signing keys and
+application sessions locally. Installing the mail plugin or connecting the hosted
+mail endpoint does not enable that companion or approve an agent identity.
+
 With the REST API your code orchestrates email. With MCP, the **agent itself**
 decides when to check its inbox, draft a reply, or escalate — SentFromAI's operations
 appear directly in the model's tool list.
