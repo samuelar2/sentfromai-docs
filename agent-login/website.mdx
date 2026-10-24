@@ -1,0 +1,136 @@
+---
+title: 'Add Sign in with Agent'
+description: 'Connect a Node.js website while retaining control of providers, sessions, and permissions.'
+---
+
+The `@agentlogin/rp` package supplies the sign-in form and protocol handlers. Your
+application supplies accounts, shared sessions, and business permissions. The
+PostgreSQL callback adapter makes callback state one-use across replicas; it does
+not store application sessions or data.
+
+<Note>
+  Version `0.2.0-beta.1` is a release candidate until publication is confirmed.
+  The SDK targets a pinned working draft, not a final standard or complete
+  conformance certification. Node.js 22.13 or later is required; use a maintained
+  patch release. This adapter does not run in edge runtimes.
+</Note>
+
+## 1. Choose which issuers to accept
+
+For the SentFrom beta, explicitly allow `https://identity.sentfrom.ai`. Your
+website makes this decision. The sign-in button does not ask visitors to adopt
+a directory, and a new catalog entry must not silently change your configuration.
+
+An Open Client uses its HTTPS metadata-document URL as its identifier. It needs
+neither a central-directory listing nor a separate client registration. Requests
+for human Owner details require a Registered Client and the corresponding approval
+policy; the example below requests only the agent's identity and handle.
+
+## 2. Install and wire the SDK
+
+After the exact releases are confirmed public:
+
+```sh
+npm install --save-exact @agentlogin/rp@0.2.0-beta.1 @agentlogin/rp-store-postgres@0.2.0-beta.1
+```
+
+Use your application's authoritative PostgreSQL primary, a bounded connection
+pool with verified TLS, and distinct callback/application schemas. Run the callback
+migration with a dedicated migration role before starting replicas. Runtime
+credentials should have only the adapter's required schema, table, and function
+permissions. All replicas use the same state secret and callback store.
+
+This example shows SDK wiring. `pool`, `accounts`, and `sessions` are **application
+adapters you must implement**, not exports from the package:
+
+```ts
+import { RelyingParty, createHandlers, signInForm } from '@agentlogin/rp';
+import { PostgresCallbackStateStore } from '@agentlogin/rp-store-postgres';
+
+const base = 'https://app.example.com';
+const callbackStore = new PostgresCallbackStateStore({
+  pool, // Your bounded, authenticated primary-database pool.
+  schema: 'agent_login_callbacks',
+});
+await callbackStore.verifySchema();
+
+const rp = new RelyingParty({
+  clientId: base + '/client-metadata.json',
+  redirectUri: base + '/auth/agent/callback',
+  issuers: ['https://identity.sentfrom.ai'],
+  scopes: ['openid', 'email'],
+  stateSecret: process.env.STATE_SECRET!, // Random secret shared across replicas.
+});
+
+const auth = createHandlers(rp, {
+  callbackStore,
+  metadata: {
+    clientName: 'Example App',
+    initiateLoginUri: base + '/auth/agent/login',
+  },
+  onSignIn: async (signIn, request) => {
+    const account = await accounts.upsert(signIn.agent.key); // (iss, sub)
+    return sessions.createAndRedirect({
+      account,
+      agent: signIn.agent,
+      live: rp.liveCheckOf(signIn),
+      request,
+      redirectTo: '/',
+    });
+  },
+});
+
+const buttonHtml = signInForm({ action: '/auth/agent/login' });
+```
+
+Map your framework's web-standard `Request` and `Response` routes:
+
+| Route | Handler |
+| --- | --- |
+| `GET /client-metadata.json` | `auth.metadata` |
+| `GET, POST /auth/agent/login` | `auth.login` |
+| `GET /auth/agent/callback` | `auth.callback` |
+
+Render `buttonHtml` in your page. Publish exact metadata and callback URLs over
+HTTPS. Preserve every `Set-Cookie` header when bridging to your HTTP framework.
+The [RP package guide](https://github.com/agentlogin/reference/tree/main/packages/rp)
+and [complete Hono application](https://github.com/agentlogin/reference/tree/main/examples/rp-hono)
+show the full integration boundary. Test your installed version, not a sibling
+source checkout.
+
+## 3. Implement application authority
+
+- Key accounts by `(issuer, subject)`, never by handle or email. A recreated
+  identity must not inherit an old account.
+- Generate a new random session ID after sign-in. Store shared server-side
+  authority, set a fixed expiry, and issue a host-only Secure, HttpOnly,
+  SameSite cookie. Protect mutation routes against CSRF.
+- Protect the short-lived UserInfo credential at rest and keep it out of logs,
+  URLs, browser script, and tool output. Remove it when its useful lifetime ends.
+- Before lasting actions, call `await rp.recheck(session.live)`. Revocation or
+  expired credentials require a new sign-in. An issuer outage must not report a
+  successful action.
+- After the network check, revalidate the same local session and expiry inside
+  the business transaction. Coordinate logout with writes. A previous live check
+  cannot make arbitrary external side effects atomic with issuer revocation.
+- Keep permissions separate from authentication. A valid agent identity does not
+  authorize every action or access to another account's data.
+
+Use shared callback consumption and application sessions on every host. Schedule
+bounded cleanup and drain requests before closing pools. Restoring old database
+state can restore consumed callbacks or logged-out sessions: rotate the affected
+secrets and invalidate restored authority before serving traffic.
+
+## 4. Prove your integration
+
+Test callback replay on another replica, a real private application action,
+cross-account isolation, process restart, logout, expired credentials, revoked
+keys, and issuer/database outages. Reconcile uncertain writes using a stable
+operation ID. Check schema readiness, limits, and alert delivery in the deployment.
+
+If an agent uses the local companion, configure your exact origin, initiation
+route, session-check response, logout route, and allowed operations explicitly.
+Signing the helper in does not sign a separate browser in.
+
+Passing one integration is evidence for that application and configuration. It is
+not independent protocol interoperability or a complete conformance claim.

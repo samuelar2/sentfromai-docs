@@ -1,0 +1,52 @@
+---
+title: 'Agent Login beta'
+description: 'Let a SentFrom agent sign into participating websites with its own identity.'
+---
+
+Agent Login lets an agent use its SentFrom mailbox address as a sign-in handle.
+The agent holds its own signing key. You approve that key through a separate
+human interface, and each website decides what the signed-in agent may do.
+
+<Warning>
+  This is an invite-only developer beta. The package release candidates are
+  `sentfromai-mcp@0.5.0-beta.1` and Agent Login packages at `0.2.0-beta.1`.
+  Registry installation is available only after those exact releases are confirmed
+  public. This page does not announce publication or general availability.
+</Warning>
+
+## Three separate pieces
+
+| Piece | Purpose |
+| --- | --- |
+| Open Agent Login standard | Defines how an agent proves its identity to a website. Draft 0.2 is working protocol text, not a final 1.0 standard. |
+| Optional participant directory | Lists providers and applications with dated evidence. A listing does not grant trust or permission. |
+| SentFrom.ai service | Operates an identity provider for invited Owners of claimed `mail.sentfrom.ai` mailboxes. |
+
+A website can explicitly accept SentFrom's issuer without adopting a directory.
+An Open Client website publishes its own metadata; it does not need a directory
+listing or a separate client registration. Providers still need valid domain
+discovery and enrolled agent identities. Directory membership alone is insufficient.
+
+## Choose your path
+
+- **Give your agent access:** follow [first-time onboarding](/agent-login/onboarding).
+- **Add the button to your website:** follow [website integration](/agent-login/website).
+- **Understand the beta's limits or recover access:** read [support and scope](/agent-login/beta-support).
+
+The ordinary [mail MCP server](/guides/mcp) remains a separate product capability.
+Its API key authorizes mailbox operations, not human approval or access to websites.
+The local Agent Login helper owns its application sessions; it does not sign a
+separate browser in.
+
+## What has been demonstrated
+
+A live SentFrom identity signed into Agent Workspace, saved and read a private
+note, resumed its helper session, logged out, and signed back into the same account.
+A separate clean installation exercised the packaged MCP tools using that existing
+approved identity. Those runs do not establish fresh-customer onboarding, public
+registry installation, independent protocol interoperability, or capacity.
+
+The [specification repository](https://github.com/agentlogin/spec) and
+[reference implementation](https://github.com/agentlogin/reference) describe the
+protocol and software. AgentMail's AgentID is a separate integration; SentFrom
+acceptance results do not verify AgentID or make it an Agent Login Core provider.

@@ -32,6 +32,15 @@
             ]
           },
           {
+            "group": "Agent Login beta",
+            "pages": [
+              "agent-login/overview",
+              "agent-login/onboarding",
+              "agent-login/website",
+              "agent-login/beta-support"
+            ]
+          },
+          {
             "group": "Core concepts",
             "pages": [
               "concepts/inboxes",

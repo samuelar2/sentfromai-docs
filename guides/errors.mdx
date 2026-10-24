@@ -47,8 +47,10 @@ These carry `upgrade: true` so you can prompt the user to upgrade:
 | `429 signup_rate_limited` / `claim_rate_limited` | Respect `Retry-After`; never create alternate identities to bypass limits. |
 | `503 signup_disabled` / `signup_unavailable` | Signup rollout or prerequisites are unavailable. Use existing credentials or the console path. |
 
-Signup replay defaults to 60 minutes and claim links to 30 minutes; both are
-configurable. Keep the original secret and body across network retries. The
+Signup replay defaults to 60 minutes. Claim links default to seven days, capped
+by the unclaimed account's original expiry; use the returned `claim_expires_at`.
+Both settings are configurable. Refreshing a claim link never extends the account's
+lifetime. Keep the original secret and body across network retries. The
 [bootstrap example](/examples/agent-signup) saves them before its first request.
 
 ## Recommendations
