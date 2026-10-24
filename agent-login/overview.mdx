@@ -19,7 +19,7 @@ human interface, and each website decides what the signed-in agent may do.
 | Piece | Purpose |
 | --- | --- |
 | Open Agent Login standard | Defines how an agent proves its identity to a website. Draft 0.2 is working protocol text, not a final 1.0 standard. |
-| Optional participant directory | Lists providers and applications with dated evidence. A listing does not grant trust or permission. |
+| [Optional participant directory](https://agentlogin.github.io/reference/) | Lists providers and applications with dated evidence. A listing does not grant trust or permission. |
 | SentFrom.ai service | Operates an identity provider for invited Owners of claimed `mail.sentfrom.ai` mailboxes. |
 
 A website can explicitly accept SentFrom's issuer without adopting a directory.
@@ -48,5 +48,9 @@ registry installation, independent protocol interoperability, or capacity.
 
 The [specification repository](https://github.com/agentlogin/spec) and
 [reference implementation](https://github.com/agentlogin/reference) describe the
-protocol and software. AgentMail's AgentID is a separate integration; SentFrom
+protocol and software. Reviewed beta tarballs are available in the
+[Agent Login release](https://github.com/agentlogin/reference/releases/tag/v0.2.0-beta.1)
+and [SentFrom MCP release](https://github.com/sentfromai/sentfromai-mcp/releases/tag/v0.5.0-beta.1).
+These artifact releases do not establish npm registry availability.
+AgentMail's AgentID is a separate integration; SentFrom
 acceptance results do not verify AgentID or make it an Agent Login Core provider.
