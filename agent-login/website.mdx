@@ -9,8 +9,8 @@ PostgreSQL callback adapter makes callback state one-use across replicas; it doe
 not store application sessions or data.
 
 <Note>
-  Version `0.2.0-beta.1` is available as official public GitHub release archives.
-  These beta versions are not yet published on npm; use the archive install below.
+  Version `0.2.0-beta.1` is published on npm. Official public GitHub release
+  archives remain available as a fallback.
   The SDK targets a pinned working draft, not a final standard or complete
   conformance certification. Node.js 22.13 or later is required; use a maintained
   patch release. This adapter does not run in edge runtimes.
@@ -29,8 +29,21 @@ policy; the example below requests only the agent's identity and handle.
 
 ## 2. Install and wire the SDK
 
-Install all three coordinated public archives together, including the core
-`agentlogin` dependency. This works without npm login or a sibling checkout:
+Install the exact SDK versions and PostgreSQL driver from npm. This works without
+npm login or a sibling checkout:
+
+```sh
+npm install --save-exact --ignore-scripts \
+  @agentlogin/rp@0.2.0-beta.1 \
+  @agentlogin/rp-store-postgres@0.2.0-beta.1 \
+  pg@8.16.3
+```
+
+Retain your generated `package-lock.json` and use `npm ci --ignore-scripts` for
+repeat installs.
+
+**GitHub archive fallback:** install all three coordinated public archives
+together, including the core `agentlogin` dependency:
 
 ```sh
 npm install --save-exact --ignore-scripts \
@@ -41,10 +54,9 @@ npm install --save-exact --ignore-scripts \
 ```
 
 The [official release manifest](https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/release.json)
-records archive hashes and the source revision. Retain your generated
-`package-lock.json` and use `npm ci --ignore-scripts` for repeat installs. A fresh
-semver-only install of the unpublished package names will fail. Public GitHub
-archive distribution is separate from npm registry publication.
+records archive hashes and the source revision. Initial npm publication used
+maintainer-authenticated uploads of those verified archives; no CI provenance is
+claimed. Retain the lockfile for either installation method.
 
 The [Agent Tasks consumer](https://github.com/agentlogin/agent-tasks) also provides
 a verified portable lockfile and a disposable PostgreSQL test runner. Its clean
