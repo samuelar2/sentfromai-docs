@@ -41,34 +41,57 @@ independently protected passkey while the first works can avoid lost-factor reco
 ## 3. Install and configure the companion
 
 <Note>
-  These are planned beta versions. Run the registry command only after the release
-  operator confirms publication. Before then, use the reviewed tarballs supplied
-  for the private pilot. Stable mail marketplace installations remain mail-only.
+  The beta packages are available as official public GitHub release archives.
+  These beta versions are not yet published on npm. Use the coordinated archive install
+  below. Stable mail marketplace installations remain mail-only.
 </Note>
 
-Use a maintained Node.js release satisfying the companion's Node.js 22.13 minimum.
+Use the tested Node.js 22.23.4 patch or a tested maintained later release.
 Install the packages together in a dedicated directory:
 
 ```sh
-npm install --save-exact agentlogin@0.2.0-beta.1 @agentlogin/mcp@0.2.0-beta.1 sentfromai-mcp@0.5.0-beta.1
+npm install --save-exact --ignore-scripts \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-0.2.0-beta.1.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-mcp-0.2.0-beta.1.tgz \
+  https://github.com/sentfromai/sentfromai-mcp/releases/download/v0.5.0-beta.1/sentfromai-mcp-0.5.0-beta.1.tgz
 ```
 
-Copy `node_modules/sentfromai-mcp/skills/agent-login/config.example.json` to a private
-file. Replace its handle with your exact mailbox address and `stateDirectory` with
-an absolute private directory. The example explicitly allows Agent Workspace;
-keep that target only if you authorize it. Do not add websites automatically from
-a catalog.
+Retain `package-lock.json` and use `npm ci --ignore-scripts` for repeat installs.
+The [Agent Login release](https://github.com/agentlogin/reference/releases/tag/v0.2.0-beta.1)
+and [SentFrom companion release](https://github.com/sentfromai/sentfromai-mcp/releases/tag/v0.5.0-beta.1)
+provide their manifests and archive hashes. This is public GitHub distribution,
+not npm registry publication.
+
+For a new configuration, choose an unused absolute directory owned by the user who
+will launch the companion. From your installation directory:
+
+```sh
+umask 077
+agentlogin_private="/absolute/private/sentfrom-agent-login"
+mkdir -p "$agentlogin_private/state"
+chmod 700 "$agentlogin_private" "$agentlogin_private/state"
+cp -n node_modules/sentfromai-mcp/skills/agent-login/config.example.json "$agentlogin_private/agentlogin.json"
+chmod 600 "$agentlogin_private/agentlogin.json"
+```
+
+`cp -n` preserves an existing configuration. Do not replace existing identity state
+when setting up another person. Edit the copied JSON locally before validation:
+replace its handle with your exact mailbox address and `stateDirectory` with the
+absolute `state` directory created above. The example explicitly allows Agent
+Workspace; keep that target only if you authorize it. Do not add websites
+automatically from a catalog.
 
 The configuration must be owned by the launching user with mode `0600`, and its
 state directory with mode `0700`. Use the host's protected credential settings for
 `SENTFROMAI_API_KEY`; the JSON names that environment variable, not its secret value.
 
 ```sh
-/absolute/install/node_modules/.bin/agentlogin-mcp --check-config /absolute/private/agentlogin.json
+/absolute/install/node_modules/.bin/agentlogin-mcp --check-config "$agentlogin_private/agentlogin.json"
 ```
 
 Add a separate local MCP server with the absolute executable path above and arguments
-`--config /absolute/private/agentlogin.json`. Supply the mailbox API key in its
+`--config /absolute/private/sentfrom-agent-login/agentlogin.json`, adjusted to your
+chosen path. Supply the mailbox API key in its
 protected environment. The optional `identity-server.js` wrapper and
 `mcp-with-identity.json` are included for compatible hosts. A Git-cloned plugin
 needs the companion installed in that checkout; an unrelated project installation
@@ -81,6 +104,11 @@ Never copy an existing identity's keys or cookies to onboard a new person.
 Ask your agent to run `agentlogin_inventory`, then `agentlogin_enroll` for the
 configured identity. It generates a new private key locally and gives you a public
 approval link and fingerprint.
+
+`agentlogin_inventory` lists configured identities and applications.
+`enrollmentAvailable: true` means an enrollment endpoint is configured; it does
+not prove that your human passkey is activated, that an agent key is approved, or
+that the helper is signed in. Complete the separate approval steps below.
 
 Open that link yourself. Compare the address, key name, and full fingerprint with
 the request your agent started. This fingerprint identifies the **agent key**; it

@@ -9,7 +9,8 @@ PostgreSQL callback adapter makes callback state one-use across replicas; it doe
 not store application sessions or data.
 
 <Note>
-  Version `0.2.0-beta.1` is a release candidate until publication is confirmed.
+  Version `0.2.0-beta.1` is available as official public GitHub release archives.
+  These beta versions are not yet published on npm; use the archive install below.
   The SDK targets a pinned working draft, not a final standard or complete
   conformance certification. Node.js 22.13 or later is required; use a maintained
   patch release. This adapter does not run in edge runtimes.
@@ -28,11 +29,26 @@ policy; the example below requests only the agent's identity and handle.
 
 ## 2. Install and wire the SDK
 
-After the exact releases are confirmed public:
+Install all three coordinated public archives together, including the core
+`agentlogin` dependency. This works without npm login or a sibling checkout:
 
 ```sh
-npm install --save-exact @agentlogin/rp@0.2.0-beta.1 @agentlogin/rp-store-postgres@0.2.0-beta.1
+npm install --save-exact --ignore-scripts \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-0.2.0-beta.1.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-rp-0.2.0-beta.1.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-rp-store-postgres-0.2.0-beta.1.tgz \
+  pg@8.16.3
 ```
+
+The [official release manifest](https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/release.json)
+records archive hashes and the source revision. Retain your generated
+`package-lock.json` and use `npm ci --ignore-scripts` for repeat installs. A fresh
+semver-only install of the unpublished package names will fail. Public GitHub
+archive distribution is separate from npm registry publication.
+
+The [Agent Tasks consumer](https://github.com/agentlogin/agent-tasks) also provides
+a verified portable lockfile and a disposable PostgreSQL test runner. Its clean
+install was tested with Node.js 22.23.4; use a tested maintained release.
 
 Use your application's authoritative PostgreSQL primary, a bounded connection
 pool with verified TLS, and distinct callback/application schemas. Run the callback
