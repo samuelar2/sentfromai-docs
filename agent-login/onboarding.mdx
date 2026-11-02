@@ -41,13 +41,24 @@ independently protected passkey while the first works can avoid lost-factor reco
 ## 3. Install and configure the companion
 
 <Note>
-  The beta packages are available as official public GitHub release archives.
-  These beta versions are not yet published on npm. Use the coordinated archive install
-  below. Stable mail marketplace installations remain mail-only.
+  The beta packages are published on npm. Install the exact versions below;
+  official public GitHub release archives remain available as a fallback.
+  Stable mail marketplace installations remain mail-only.
 </Note>
 
 Use the tested Node.js 22.23.4 patch or a tested maintained later release.
 Install the packages together in a dedicated directory:
+
+```sh
+npm install --save-exact --ignore-scripts \
+  agentlogin@0.2.0-beta.1 \
+  @agentlogin/mcp@0.2.0-beta.1 \
+  sentfromai-mcp@0.5.0-beta.1
+```
+
+Retain `package-lock.json` and use `npm ci --ignore-scripts` for repeat installs.
+
+**GitHub archive fallback:** install all three coordinated archives together:
 
 ```sh
 npm install --save-exact --ignore-scripts \
@@ -56,11 +67,11 @@ npm install --save-exact --ignore-scripts \
   https://github.com/sentfromai/sentfromai-mcp/releases/download/v0.5.0-beta.1/sentfromai-mcp-0.5.0-beta.1.tgz
 ```
 
-Retain `package-lock.json` and use `npm ci --ignore-scripts` for repeat installs.
 The [Agent Login release](https://github.com/agentlogin/reference/releases/tag/v0.2.0-beta.1)
 and [SentFrom companion release](https://github.com/sentfromai/sentfromai-mcp/releases/tag/v0.5.0-beta.1)
-provide their manifests and archive hashes. This is public GitHub distribution,
-not npm registry publication.
+provide manifests with source revisions and archive hashes. Initial npm publication
+used maintainer-authenticated uploads of those verified archives; no CI provenance
+is claimed. Retain the lockfile for either installation method.
 
 For a new configuration, choose an unused absolute directory owned by the user who
 will launch the companion. From your installation directory:
