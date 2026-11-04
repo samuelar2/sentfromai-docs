@@ -51,9 +51,9 @@ Install the packages together in a dedicated directory:
 
 ```sh
 npm install --save-exact --ignore-scripts \
-  agentlogin@0.2.0-beta.1 \
-  @agentlogin/mcp@0.2.0-beta.1 \
-  sentfromai-mcp@0.5.0-beta.1
+  agentlogin@0.2.0-beta.2 \
+  @agentlogin/mcp@0.2.0-beta.2 \
+  sentfromai-mcp@0.5.0-beta.2
 ```
 
 Retain `package-lock.json` and use `npm ci --ignore-scripts` for repeat installs.
@@ -62,15 +62,15 @@ Retain `package-lock.json` and use `npm ci --ignore-scripts` for repeat installs
 
 ```sh
 npm install --save-exact --ignore-scripts \
-  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-0.2.0-beta.1.tgz \
-  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-mcp-0.2.0-beta.1.tgz \
-  https://github.com/sentfromai/sentfromai-mcp/releases/download/v0.5.0-beta.1/sentfromai-mcp-0.5.0-beta.1.tgz
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/agentlogin-0.2.0-beta.2.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/agentlogin-mcp-0.2.0-beta.2.tgz \
+  https://github.com/sentfromai/sentfromai-mcp/releases/download/v0.5.0-beta.2/sentfromai-mcp-0.5.0-beta.2.tgz
 ```
 
-The [Agent Login release](https://github.com/agentlogin/reference/releases/tag/v0.2.0-beta.1)
-and [SentFrom companion release](https://github.com/sentfromai/sentfromai-mcp/releases/tag/v0.5.0-beta.1)
-provide manifests with source revisions and archive hashes. Initial npm publication
-used maintainer-authenticated uploads of those verified archives; no CI provenance
+The [Agent Login release](https://github.com/agentlogin/reference/releases/tag/v0.2.0-beta.2)
+and [SentFrom companion release](https://github.com/sentfromai/sentfromai-mcp/releases/tag/v0.5.0-beta.2)
+provide manifests with source revisions and archive hashes. This npm release
+uses maintainer-authenticated uploads of those verified archives; no CI provenance
 is claimed. Retain the lockfile for either installation method.
 
 For a new configuration, choose an unused absolute directory owned by the user who
