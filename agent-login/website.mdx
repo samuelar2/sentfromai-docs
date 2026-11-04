@@ -9,7 +9,7 @@ PostgreSQL callback adapter makes callback state one-use across replicas; it doe
 not store application sessions or data.
 
 <Note>
-  Version `0.2.0-beta.1` is published on npm. Official public GitHub release
+  Version `0.2.0-beta.2` is published on npm. Official public GitHub release
   archives remain available as a fallback.
   The SDK targets a pinned working draft, not a final standard or complete
   conformance certification. Node.js 22.13 or later is required; use a maintained
@@ -34,8 +34,8 @@ npm login or a sibling checkout:
 
 ```sh
 npm install --save-exact --ignore-scripts \
-  @agentlogin/rp@0.2.0-beta.1 \
-  @agentlogin/rp-store-postgres@0.2.0-beta.1 \
+  @agentlogin/rp@0.2.0-beta.2 \
+  @agentlogin/rp-store-postgres@0.2.0-beta.2 \
   pg@8.16.3
 ```
 
@@ -47,20 +47,22 @@ together, including the core `agentlogin` dependency:
 
 ```sh
 npm install --save-exact --ignore-scripts \
-  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-0.2.0-beta.1.tgz \
-  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-rp-0.2.0-beta.1.tgz \
-  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/agentlogin-rp-store-postgres-0.2.0-beta.1.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/agentlogin-0.2.0-beta.2.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/agentlogin-rp-0.2.0-beta.2.tgz \
+  https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/agentlogin-rp-store-postgres-0.2.0-beta.2.tgz \
   pg@8.16.3
 ```
 
-The [official release manifest](https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.1/release.json)
-records archive hashes and the source revision. Initial npm publication used
+The [official release manifest](https://github.com/agentlogin/reference/releases/download/v0.2.0-beta.2/release.json)
+records archive hashes and the source revision. This npm release uses
 maintainer-authenticated uploads of those verified archives; no CI provenance is
 claimed. Retain the lockfile for either installation method.
 
-The [Agent Tasks consumer](https://github.com/agentlogin/agent-tasks) also provides
-a verified portable lockfile and a disposable PostgreSQL test runner. Its clean
-install was tested with Node.js 22.23.4; use a tested maintained release.
+The [Agent Tasks consumer](https://github.com/agentlogin/agent-tasks) provides a
+working integration and a disposable PostgreSQL test runner. Its registry acceptance
+workflow tests the reviewed packages in a temporary checkout; the application's
+deployment lockfile remains separate. Use the tested Node.js 22.23.4 patch or a
+tested maintained later release.
 
 Use your application's authoritative PostgreSQL primary, a bounded connection
 pool with verified TLS, and distinct callback/application schemas. Run the callback
