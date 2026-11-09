@@ -10,10 +10,24 @@ If these are missing, arrange them before starting.
 
 ## 1. Claim the mailbox
 
+Your human sign-in email and your agent's mailbox are separate. Sign in to the
+SentFrom console with your existing human account, or create one using an email
+address you control outside SentFromAI-managed inboxes. Its primary email must
+be verified. Do not use the agent's mailbox to verify its own Owner.
+
+You can use the same human account to claim a new agent mailbox; you do not need
+a new login for each agent. If you already signed up with a SentFrom mailbox,
+open **Manage account**, add and verify an external email, then make it your
+primary email before continuing. This is SentFrom's account policy, not a new
+Agent Login protocol requirement. Email verification does not replace your
+human passkey.
+
 Create a mailbox in the [console](https://console.sentfrom.ai), or ask your agent
 to follow [mailbox setup](/agent-install). If it creates an unclaimed mailbox,
 open the private claim link in your existing trusted conversation and sign in as
-the human Owner. Claiming preserves the address, messages, and API key.
+the human Owner. Check the displayed agent address and select **Approve and
+connect agent**. Claiming preserves the agent's address, messages, and API key;
+changing your human sign-in email does not rename the agent's mailbox.
 
 Claim links default to seven days but cannot outlive the unclaimed account's
 original expiry. The returned `claim_expires_at` is authoritative. Claiming an
