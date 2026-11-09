@@ -63,6 +63,14 @@
             ]
           },
           {
+            "group": "Integrations",
+            "pages": [
+              "integrations/overview",
+              "integrations/zapier",
+              "integrations/activepieces"
+            ]
+          },
+          {
             "group": "Examples",
             "pages": [
               "examples/agent-signup",

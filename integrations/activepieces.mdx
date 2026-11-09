@@ -1,0 +1,59 @@
+---
+title: 'Activepieces'
+description: 'Download the SentFromAI custom-piece preview for Activepieces and connect inboxes, sending, replies, search, and received-email polling.'
+---
+
+The SentFromAI custom piece adds six email and inbox actions and an **Email Received** polling trigger to Activepieces.
+
+<Note>
+  Version 0.0.2 is a downloadable custom-piece preview. It is not listed in the public Activepieces catalog. An authorized platform administrator must install it, and hosted installation and live flows are still awaiting verification.
+</Note>
+
+<CardGroup cols={2}>
+  <Card title="Download version 0.0.2" icon="download" href="https://github.com/sentfromai/integrations/releases/tag/activepieces-v0.0.2">
+    Get the archive, SHA-256 checksum, and source manifest.
+  </Card>
+  <Card title="Administrator installation guide" icon="book" href="https://github.com/sentfromai/integrations/blob/main/activepieces/INSTALL.md">
+    Upload the archive using your platform's supported custom-piece process.
+  </Card>
+</CardGroup>
+
+## Install and connect
+
+1. Confirm your Activepieces platform supports custom pieces and that your administrator can install them. Ordinary project membership is not enough.
+2. Download `activepieces-piece-sentfromai-0.0.2.tgz`, `SHA256SUMS`, and `release-manifest.json` from the release page. Verify the checksum using the installation guide, then have your administrator upload the intact archive.
+3. In a test project, confirm **SentFromAI 0.0.2** appears in the piece picker.
+4. Create a connection using a dedicated test account's key from the [SentFromAI API keys page](https://console.sentfrom.ai/keys). The connection check reads `/v1/account` and does not send email.
+5. Start with **List Inboxes** and **Get Email**. Test sending and replies only between mailboxes you control.
+
+The piece requires a Node.js 22 or newer worker and declares Activepieces 0.82.0 as its minimum release. These are package requirements; compatibility with every supported host version has not been established.
+
+The archive includes its runtime dependencies and license notices. Its 21 automated checks include extracting the package and repeating all 20 operation and TLS tests against the bundled code. These checks do not replace a test in your Activepieces project.
+
+## Available operations
+
+| Operation | Purpose |
+| --- | --- |
+| List Inboxes | Read the inboxes in your workspace. |
+| Create Inbox | Create a new, uniquely named inbox. |
+| Search Emails | Search messages, optionally within one inbox. |
+| Get Email | Read a message by ID. |
+| Send Email | Send a new email from your inbox. |
+| Reply to Email | Reply in an existing conversation. |
+| Email Received | Poll for new inbound messages. |
+
+Send and Reply accept an optional Client ID. Reuse the same ID and content for retries of one email. Use a different ID for a different intended email. After an uncertain result, check the message outcome before retrying; a new ID can create a duplicate.
+
+## Polling limitations
+
+**Email Received** runs on your platform's polling schedule. Each poll reads the latest 100 total messages and emits only new inbound messages. Outbound messages also occupy that 100-message window, so a busy account can push an incoming message out before the next poll. The trigger does not backfill history.
+
+Enabling or republishing a flow resets the bundled polling cursor to the current time. Messages received while the flow was disabled can be skipped. Upgrading Activepieces itself does not replace the helper bundled in this piece.
+
+For workflows that require push delivery, consider the [Zapier webhook trigger](/integrations/zapier) or a direct [SentFromAI webhook integration](/concepts/receiving).
+
+## Help and validation
+
+Follow the [hosted acceptance checklist](https://github.com/sentfromai/integrations/blob/main/activepieces/SUBMISSION.md) after installation. Confirm valid and invalid keys, message delivery, identical retries, and one-time inbound trigger execution before using production mail.
+
+Report installation results at [GitHub Issues](https://github.com/sentfromai/integrations/issues), or contact [support@sentfrom.ai](mailto:support@sentfrom.ai). Include the platform version, piece version, step, and non-sensitive error text; omit credentials and private email content.

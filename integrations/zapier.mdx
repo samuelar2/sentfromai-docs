@@ -1,0 +1,75 @@
+---
+title: 'Zapier'
+description: 'Install the SentFromAI Zapier preview and build a workflow that receives an email and reads its message details.'
+---
+
+SentFromAI for Zapier connects your email inboxes to Zaps. Version 1.0.1 is available through a private invitation.
+
+<Note>
+  This is an invite-only preview. It has not yet been reviewed or approved for the Zapier App Directory.
+</Note>
+
+<Card title="Add SentFromAI to Zapier" icon="bolt" href="https://zapier.com/developer/public-invite/249349/7f6a0b40c952b3a9fecdccfa367118fd/">
+  Accept the invitation in the Zapier account where you will build your workflow.
+</Card>
+
+## Connect your workspace
+
+1. Open the invitation above and add SentFromAI to your Zapier account.
+2. In the [SentFromAI console](https://console.sentfrom.ai/inboxes), create or select an inbox. Keep its email address handy.
+3. Create an API key on the [API keys page](https://console.sentfrom.ai/keys).
+4. Create a Zap, choose **SentFromAI**, and connect your account. Paste the key into **API Key** without a `Bearer` prefix.
+5. Confirm the connection label identifies your intended SentFromAI workspace.
+
+Keep the key in Zapier's connection settings, not in ordinary step fields or email content.
+
+## First workflow: receive and read an email
+
+<Steps>
+  <Step title="Choose the email trigger">
+    Select **SentFromAI → New Email Received** and choose one inbox. Send a test email to that address from a mailbox you control, then test the trigger and select the real received message.
+  </Step>
+  <Step title="Read the message">
+    Add **SentFromAI → Get Message**. Map the trigger's **Message ID** into the action's message ID field. Test the action and confirm the sender, subject, and body match your test email.
+  </Step>
+  <Step title="Turn on the Zap">
+    Publish the Zap, send one new test email, and check Zap History. The trigger and Get Message action should both succeed. This workflow reads mail; adding a sending action is a separate step.
+  </Step>
+</Steps>
+
+The trigger uses an instant webhook while the Zap is enabled. The editor's sample picker reads recent real messages and is separate from live webhook delivery. If there is no sample, check the selected inbox and send a fresh test message.
+
+## Available steps
+
+| Step | Purpose |
+| --- | --- |
+| New Email Received | Start a Zap when an inbound email arrives. |
+| New Inbox | Start a Zap when an inbox is created. |
+| Create Inbox | Create a new inbox with a unique address. |
+| Get Message | Read a message's content and metadata. |
+| Find Message | Search for a message, optionally within one inbox. |
+| Send Email | Send a new email from your inbox. |
+| Reply to Email | Reply in an existing conversation. |
+| Create Draft | Save an unsent email or reply draft. |
+
+For a workflow with human review, see the [receive → approve → draft recipe](https://github.com/sentfromai/integrations/blob/main/zapier/USER_GUIDE.md). That recipe requires access to Zapier's Human in the Loop feature and has not yet been verified end to end in a hosted Zap.
+
+## Sending and retries
+
+For **Send Email**, set **Unique Send ID** to a value specific to that intended email. For **Reply to Email** in version 1.0.1, use **Unique Reply ID** the same way. Use different IDs for different messages and workflow steps.
+
+When retrying the same email, preserve its ID and content. An error such as `client_id_conflict` or `send_outcome_pending` requires checking the previous outcome; generating a new ID can send another copy. Create Draft has no retry key, so inspect earlier results before replaying it.
+
+## Troubleshooting
+
+| Problem | Next step |
+| --- | --- |
+| SentFromAI is missing from the app picker | Accept the invitation in the same Zapier account. It is not yet in the public App Directory. |
+| Invalid API key | Reconnect with a current key from the intended workspace. |
+| `address_taken` | The inbox already exists. Select it for sending, or choose a new address when creating a different inbox. |
+| No new-email sample | Check the inbox selection and receive a fresh test message. |
+| Sending is paused or restricted | Review the account status and returned API error. Reconnecting does not remove sending restrictions. |
+
+Hosted version 1.0.1 has passed controlled send, read, search, reply, same-key retry, and enabled email-trigger workflow checks. Fresh installation by a separate non-admin user and App Directory review are still pending.
+
+Contact [support@sentfrom.ai](mailto:support@sentfrom.ai) with the step name, time, and non-sensitive error text. Do not include API keys or private email content.
