@@ -66,6 +66,7 @@
             "group": "Integrations",
             "pages": [
               "integrations/overview",
+              "integrations/osmos",
               "integrations/zapier",
               "integrations/activepieces"
             ]
