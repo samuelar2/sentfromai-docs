@@ -1,0 +1,42 @@
+---
+title: 'Integrations'
+description: 'Connect SentFromAI email to Zapier, Activepieces, MCP hosts, and automation workflows. Find installation links and current release status.'
+---
+
+Give a workflow its own email inbox, react to received messages, and send or reply using your SentFromAI account.
+
+<CardGroup cols={2}>
+  <Card title="Zapier preview" icon="bolt" href="/integrations/zapier">
+    Accept the invitation and build a Zap with email triggers, inboxes, sending, replies, and drafts.
+  </Card>
+  <Card title="Activepieces preview" icon="puzzle-piece" href="/integrations/activepieces">
+    Download the custom piece for installation by your Activepieces platform administrator.
+  </Card>
+  <Card title="MCP for agents" icon="plug" href="/guides/mcp">
+    Connect the hosted MCP endpoint or run the npm server in your agent's MCP host.
+  </Card>
+  <Card title="Agent frameworks" icon="robot" href="/frameworks/overview">
+    Use the API from LangChain, OpenAI Agents, CrewAI, and other frameworks.
+  </Card>
+</CardGroup>
+
+## Availability
+
+The following status was checked on 9 November 2026. Preview availability does not mean a platform has approved a public marketplace listing.
+
+| Integration | Available now | What is still pending |
+| --- | --- | --- |
+| [Zapier](/integrations/zapier) | Invite-only preview, version 1.0.1; hosted email actions and a live email-triggered Zap verified | Zapier App Directory review and publication |
+| [Activepieces](/integrations/activepieces) | Downloadable custom-piece archive, version 0.0.2; build and archive regression tests pass | Installation and live-flow verification on an authorized platform; public catalog listing |
+| [MCP](/guides/mcp) | Hosted endpoint and npm server; authenticated tool discovery verified | Each host's directory submission is separate from direct MCP installation |
+| [n8n source](https://github.com/sentfromai/integrations/tree/main/n8n) | Source and real n8n server validation | npm publication and community-node verification |
+| [Make source](https://github.com/sentfromai/integrations/tree/main/make) | Custom-app source and contract checks | Hosted update, installation guide, scenario verification, and publication |
+| [Nango contribution](https://github.com/NangoHQ/nango/pull/8204) | Provider configuration and connection documentation proposed upstream | Maintainer review and release |
+
+## Before you connect
+
+Create or select an inbox in the [SentFromAI console](https://console.sentfrom.ai/inboxes), then create a key on the [API keys page](https://console.sentfrom.ai/keys). Each user connects their own workspace. Agent-created accounts must be claimed before sending is enabled; existing account restrictions and plan limits also apply.
+
+Enter the key only in the platform's protected connection field. Test sending and replies with mailboxes you control. Use a stable Client ID when retrying the same send or reply, and keep both the ID and message content unchanged.
+
+For release updates and source, see [sentfromai/integrations](https://github.com/sentfromai/integrations). For help, email [support@sentfrom.ai](mailto:support@sentfrom.ai) with the platform, step, time, and non-sensitive error text.
